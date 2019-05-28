@@ -1,0 +1,8 @@
+platform:
+  dev:
+    paperRootPath: D:/z-files/paper/
+    magazineRootPath: D:/z-files/magazine/imported/
+  prod:
+    paperRootPath: z:/paper/
+    magazineRootPath: z:/magazine/imported/
+
