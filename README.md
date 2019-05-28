@@ -1,4 +1,5 @@
 # economic-daily-api
+引入jwt，引用链接：  
 [前后端分离微服务认证之JWT](https://blog.52itstyle.com/archives/2157/)
 
 ![输入图片说明](https://gitee.com/uploads/images/2018/0316/184958_d43bfa15_87650.png "488490-20170117211606396-1300480328.png")
@@ -152,7 +153,7 @@ https://blog.csdn.net/AHAU10/article/details/52550430
 archiveEntry.setMethod(ZipMethod.STORED.getCode());
 ```
 注：开发环境，资源文件、压缩文件都在本机，性能得到很大提升。线上环境，资源文件是挂载网络位置，
-    接口还是很慢（考虑将merge文件生成到服务机器磁盘下，但资源文件数据庞大）。
+    接口还是很慢（考虑将merge文件生成到服务机器磁盘下，但资源文件数据庞大）。  
 之前接口代码如下：
 ```
 @ApiOperation(value = "期刊原件下载")
