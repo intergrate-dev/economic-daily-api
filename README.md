@@ -141,9 +141,9 @@ https://elasticsearch.cn/article/756
 ### Multify Thread
 https://segmentfault.com/q/1010000008179970?_ea=1578732
 https://blog.csdn.net/u011163372/article/details/73995897
-https://blog.csdn.net/AHAU10/article/details/52550430
-java多线程压缩
-https://blog.csdn.net/lyx2007825/article/details/7618151
+https://blog.csdn.net/AHAU10/article/details/52550430  
+java多线程压缩  
+https://blog.csdn.net/lyx2007825/article/details/7618151 
 
 
 高效压缩
