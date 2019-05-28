@@ -1,111 +1,111 @@
 # economic-daily-api
 引入jwt，引用链接：  
-[前后端分离微服务认证之JWT](https://blog.52itstyle.com/archives/2157/)
+[前后端分离微服务认证之JWT](https://blog.52itstyle.com/archives/2157/)  
 
 ![输入图片说明](https://gitee.com/uploads/images/2018/0316/184958_d43bfa15_87650.png "488490-20170117211606396-1300480328.png")
 
 
-接口postman发布地址
-https://documenteY.getpostman.com/view/7509577/S1LyTnJN
-https://lively-satellite-1966.postman.co/collections/7509577-8b9f4444-9840-4381-828c-27bd9d21a0d8?workspace=d28b4872-7589-4b27-8a07-4c092352253c
+接口postman发布地址  
+https://documenteY.getpostman.com/view/7509577/S1LyTnJN  
+https://lively-satellite-1966.postman.co/collections/7509577-8b9f4444-9840-4381-828c-27bd9d21a0d8?workspace=d28b4872-7589-4b27-8a07-4c092352253c  
 
 
 ### JWT
-reference link: http://www.ruanyifeng.com/blog/2018/07/json_web_token-tutorial.html
+reference link: http://www.ruanyifeng.com/blog/2018/07/json_web_token-tutorial.html  
 
-JWT 的几个特点
-（1）JWT 默认是不加密，但也是可以加密的。生成原始 Token 以后，可以用密钥再加密一次。
+JWT 的几个特点  
+（1）JWT 默认是不加密，但也是可以加密的。生成原始 Token 以后，可以用密钥再加密一次。  
 
-（2）JWT 不加密的情况下，不能将秘密数据写入 JWT。
+（2）JWT 不加密的情况下，不能将秘密数据写入 JWT。  
 
-（3）JWT 不仅可以用于认证，也可以用于交换信息。有效使用 JWT，可以降低服务器查询数据库的次数。
+（3）JWT 不仅可以用于认证，也可以用于交换信息。有效使用 JWT，可以降低服务器查询数据库的次数。  
 
-（4）JWT 的最大缺点是，由于服务器不保存 session 状态，因此无法在使用过程中废止某个 token，或者更改 token 的权限。也就是说，一旦 JWT 签发了，在到期之前就会始终有效，除非服务器部署额外的逻辑。
+（4）JWT 的最大缺点是，由于服务器不保存 session 状态，因此无法在使用过程中废止某个 token，或者更改 token 的权限。也就是说，一旦 JWT 签发了，在到期之前就会始终有效，除非服务器部署额外的逻辑。  
 
-（5）JWT 本身包含了认证信息，一旦泄露，任何人都可以获得该令牌的所有权限。为了减少盗用，JWT 的有效期应该设置得比较短。对于一些比较重要的权限，使用时应该再次对用户进行认证。
+（5）JWT 本身包含了认证信息，一旦泄露，任何人都可以获得该令牌的所有权限。为了减少盗用，JWT 的有效期应该设置得比较短。对于一些比较重要的权限，使用时应该再次对用户进行认证。  
 
-（6）为了减少盗用，JWT 不应该使用 HTTP 协议明码传输，要使用 HTTPS 协议传输。
-
-
-### springboot https
-springboot https 后台配置与调用
-https://blog.51cto.com/7308310/2333550
-https://blog.csdn.net/shouldnotappearcalm/article/details/78047047
+（6）为了减少盗用，JWT 不应该使用 HTTP 协议明码传输，要使用 HTTPS 协议传输。  
 
 
-
-### 实体与数据库表
-https://www.cnblogs.com/beibidewomen/p/9729686.html
-https://blog.csdn.net/weixin_39568559/article/details/79609916
-
-### spring data jpa反向生成实体
-https://www.cnblogs.com/bodhitree/p/9469052.html
-https://www.jianshu.com/p/2aa3d2dd83bd
-https://segmentfault.com/a/1190000008632485
-http://www.cnblogs.com/dreamroute/p/5173896.html
+### springboot https  
+springboot https 后台配置与调用  
+https://blog.51cto.com/7308310/2333550  
+https://blog.csdn.net/shouldnotappearcalm/article/details/78047047  
 
 
-### spring data jpa反向生成
-https://blog.csdn.net/qq_27474851/article/details/86660993
-https://www.cnblogs.com/cl-rr/p/10397107.html
-/generaCode
+
+### 实体与数据库表  
+https://www.cnblogs.com/beibidewomen/p/9729686.html  
+https://blog.csdn.net/weixin_39568559/article/details/79609916  
+
+### spring data jpa反向生成实体  
+https://www.cnblogs.com/bodhitree/p/9469052.html  
+https://www.jianshu.com/p/2aa3d2dd83bd  
+https://segmentfault.com/a/1190000008632485  
+http://www.cnblogs.com/dreamroute/p/5173896.html  
 
 
-### spring boot jdbc
-https://blog.csdn.net/forezp/article/details/70477821
-https://segmentfault.com/a/1190000009732344
-https://www.jianshu.com/p/3609c9a3f3be
+### spring data jpa反向生成  
+https://blog.csdn.net/qq_27474851/article/details/86660993  
+https://www.cnblogs.com/cl-rr/p/10397107.html  
+/generaCode  
 
 
-### spring boot全局异常处理
-https://www.cnblogs.com/java-zhao/p/5769018.html
+### spring boot jdbc  
+https://blog.csdn.net/forezp/article/details/70477821  
+https://segmentfault.com/a/1190000009732344  
+https://www.jianshu.com/p/3609c9a3f3be  
 
 
-### swagger
-springboot 生成html接口文档
-https://blog.csdn.net/qq_29534483/article/details/81227308
+### spring boot全局异常处理  
+https://www.cnblogs.com/java-zhao/p/5769018.html  
 
-#### 快速编写接口api规范文档工具(Markdown)
-https://blog.51cto.com/wuxueqing/1972073
-http://www.itdaan.com/blog/2018/04/10/ebb2ca2413729c655ab9c2959f4d2633.html
-http://www.itdaan.com/blog/2018/04/03/954ba7e0f97a840ddd99efcc730b05c.html
 
-#### api restfull sample
-http://os.opensns.cn/book/index/read/id/5.html
+### swagger  
+springboot 生成html接口文档  
+https://blog.csdn.net/qq_29534483/article/details/81227308  
+
+#### 快速编写接口api规范文档工具(Markdown)  
+https://blog.51cto.com/wuxueqing/1972073  
+http://www.itdaan.com/blog/2018/04/10/ebb2ca2413729c655ab9c2959f4d2633.html  
+http://www.itdaan.com/blog/2018/04/03/954ba7e0f97a840ddd99efcc730b05c.html  
+
+#### api restfull sample  
+http://os.opensns.cn/book/index/read/id/5.html  
  
 
-### 生产环境禁用swagger
-https://www.jianshu.com/p/fa3230ffb27c
+### 生产环境禁用swagger  
+https://www.jianshu.com/p/fa3230ffb27c  
 
 
-### swagger header
-https://blog.csdn.net/qq_33759042/article/details/80101941
+### swagger header  
+https://blog.csdn.net/qq_33759042/article/details/80101941  
 
-### swagger header参数  
-https://www.jianshu.com/p/6e5ee9dd5a61  
-[swagger忽略某个header] https://www.oschina.net/question/262436_2301706
-
-
-### jwt
-https://gitee.com/52itstyle/economic-daily-api
-https://www.cnblogs.com/wangrudong003/p/10122706.html
+### swagger header参数    
+https://www.jianshu.com/p/6e5ee9dd5a61    
+[swagger忽略某个header] https://www.oschina.net/question/262436_2301706  
 
 
-### swagger 注解
-@ApiImplicitParam(name = "openid", value = "openid", required = true, dataType = "String",paramType="header")
-https://www.wang1314.com/doc/topic-20733576-1.html
-https://my.oschina.net/dlam/blog/808315
-
-### mysql 视图
-https://www.cnblogs.com/zhangdk/p/5907434.html
+### jwt  
+https://gitee.com/52itstyle/economic-daily-api  
+https://www.cnblogs.com/wangrudong003/p/10122706.html  
 
 
-### extend  ???
-monotoring: log, performance act on
+### swagger 注解  
+@ApiImplicitParam(name = "openid", value = "openid", required = true, dataType = "String",paramType="header")  
+https://www.wang1314.com/doc/topic-20733576-1.html  
+https://my.oschina.net/dlam/blog/808315  
+
+### mysql 视图  
+https://www.cnblogs.com/zhangdk/p/5907434.html  
 
 
-@Valid 校验参数
-http://www.cnblogs.com/winner-0715/p/10145594.html
+### extend  ???  
+monotoring: log, performance act on  
+
+ 
+@Valid 校验参数  
+http://www.cnblogs.com/winner-0715/p/10145594.html  
 
 Springboot + AOP 实现参数统一非空校验
 https://www.jianshu.com/p/c13a530d97f7
