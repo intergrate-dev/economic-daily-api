@@ -2,7 +2,7 @@
 引入jwt，引用链接：  
 [前后端分离微服务认证之JWT](https://blog.52itstyle.com/archives/2157/)  
 
-![输入图片说明](https://gitee.com/uploads/images/2018/0316/184958_d43bfa15_87650.png "488490-20170117211606396-1300480328.png")
+![输入图片说明](https://gitee.com/uploads/images/2018/0316/184958_d43bfa15_87650.png)
 
 
 接口postman发布地址  
@@ -25,6 +25,12 @@ JWT 的几个特点
 （5）JWT 本身包含了认证信息，一旦泄露，任何人都可以获得该令牌的所有权限。为了减少盗用，JWT 的有效期应该设置得比较短。对于一些比较重要的权限，使用时应该再次对用户进行认证。  
 
 （6）为了减少盗用，JWT 不应该使用 HTTP 协议明码传输，要使用 HTTPS 协议传输。  
+
+other: 
+https://gitee.com/52itstyle/economic-daily-api  
+https://www.cnblogs.com/wangrudong003/p/10122706.html  
+https://www.jianshu.com/p/180a870a308a  
+https://blog.csdn.net/haoxin963/article/details/82860284  
 
 
 ### springboot https  
@@ -57,18 +63,45 @@ https://segmentfault.com/a/1190000009732344
 https://www.jianshu.com/p/3609c9a3f3be  
 
 
-### spring boot全局异常处理  
+### spring boot全局异常处理   
 https://www.cnblogs.com/java-zhao/p/5769018.html  
+
+### open api  
+https://blog.csdn.net/lucky373125/article/details/80471525
+规范
+https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.2.md
+
 
 
 ### swagger  
 springboot 生成html接口文档  
 https://blog.csdn.net/qq_29534483/article/details/81227308  
+注解  
+https://blog.csdn.net/xxoo00xx00/article/details/77163399
+
+
+###  swagger tool
+https://www.jianshu.com/p/33c28a65deb8
+
+#### swagger-editor
+http://editor.swagger.io/
+https://inspector.swagger.io/builder
+
+#### open source
+https://swagger.io/tools/open-source/
+
+
+#### swagger-codegen
+
 
 #### 快速编写接口api规范文档工具(Markdown)  
 https://blog.51cto.com/wuxueqing/1972073  
 http://www.itdaan.com/blog/2018/04/10/ebb2ca2413729c655ab9c2959f4d2633.html  
 http://www.itdaan.com/blog/2018/04/03/954ba7e0f97a840ddd99efcc730b05c.html  
+swagger2markdown  
+https://github.com/Swagger2Markup/swagger2markup  
+https://blog.csdn.net/qq_34368762/article/details/79129303  
+
 
 #### api restfull sample  
 http://os.opensns.cn/book/index/read/id/5.html  
@@ -86,11 +119,6 @@ https://www.jianshu.com/p/6e5ee9dd5a61
 [swagger忽略某个header] https://www.oschina.net/question/262436_2301706  
 
 
-### jwt  
-https://gitee.com/52itstyle/economic-daily-api  
-https://www.cnblogs.com/wangrudong003/p/10122706.html  
-
-
 ### swagger 注解  
 @ApiImplicitParam(name = "openid", value = "openid", required = true, dataType = "String",paramType="header")  
 https://www.wang1314.com/doc/topic-20733576-1.html  
@@ -101,13 +129,12 @@ https://www.cnblogs.com/zhangdk/p/5907434.html
 
 
 ### extend  ???  
-monotoring: log, performance act on  
+1. monotoring: log, performance act on  
 
- 
-@Valid 校验参数  
+2. @Valid 校验参数  
 http://www.cnblogs.com/winner-0715/p/10145594.html  
 
-Springboot + AOP 实现参数统一非空校验
+3. Springboot + AOP 实现参数统一非空校验
 https://www.jianshu.com/p/c13a530d97f7
 
 
@@ -146,7 +173,7 @@ java多线程压缩
 https://blog.csdn.net/lyx2007825/article/details/7618151 
 
 
-高效压缩
+###  高效压缩
 https://blog.csdn.net/AHAU10/article/details/52550430
 ```
  ZipArchiveEntry archiveEntry = new ZipArchiveEntry(entryName);
@@ -219,6 +246,14 @@ public ResponseObject downloadMagazines(@Valid MagazineParam param, HttpServletR
     return ResponseObject.newSuccessResponseObject(result, SystemConstant.REQ_SUCCESS);
 }    
 ```    
+
+### api设计方案
+https://www.cnblogs.com/sochishun/p/7000335.html  
+#### restful-前后端分离:
+https + jwt  (https可选)
+#### third auth service: 
+https + auth2.0
+
 
 ## issues
 @PathVariable
