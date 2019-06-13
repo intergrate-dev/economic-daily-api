@@ -6,7 +6,7 @@ public class Paper {
 
     private String id;
     private String paperName;
-    private Date paperCode;
+    private String paperCode;
 
     public String getId() {
         return id;
@@ -24,11 +24,11 @@ public class Paper {
         this.paperName = paperName;
     }
 
-    public Date getPaperCode() {
+    public String getPaperCode() {
         return paperCode;
     }
 
-    public void setPaperCode(Date paperCode) {
+    public void setPaperCode(String paperCode) {
         this.paperCode = paperCode;
     }
 }

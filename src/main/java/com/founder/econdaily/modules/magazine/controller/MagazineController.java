@@ -26,7 +26,7 @@ public class MagazineController extends BaseController {
     @Autowired
     private MagazineService magazineService;
 
-    @ApiOperation(value = "获取所有种类期刊最新一期信息")
+    @ApiOperation(value = "1. 获取所有种类期刊最新一期信息")
     @RequestMapping(value = "/newtests", method = RequestMethod.POST)
     //@ResponseBody
     public ResponseObject magazineNewtests() throws Exception {
@@ -34,7 +34,7 @@ public class MagazineController extends BaseController {
         return ResponseObject.newSuccessResponseObject(resMap, SystemConstant.REQ_SUCCESS);
     }
 
-    @ApiOperation(value = "获取某一期刊及往期期刊信息")
+    @ApiOperation(value = "2. 获取某一期刊及往期期刊信息")
     @GetMapping("/{magCode}/{pdDate}")
     /*@ResponseBody*/
     /*public ResponseObject queryMagazineDetail(@PathVariable("magCode") @RequestParam(name = "magCode", required = true, defaultValue = "zgjjxx") String magCode,
@@ -48,7 +48,7 @@ public class MagazineController extends BaseController {
         return ResponseObject.newSuccessResponseObject(resMap, SystemConstant.REQ_SUCCESS);
     }
 
-    @ApiOperation(value = "获取某一期刊、往期期刊信息及稿件信息")
+    @ApiOperation(value = "3. 获取某一期刊、往期期刊信息及稿件信息")
     @GetMapping("/{articleId}")
     /*@ResponseBody*/
     //public ResponseObject queryMagazineDetailAndArticle(@PathVariable("articleId") String articleId) throws Exception {
@@ -60,7 +60,7 @@ public class MagazineController extends BaseController {
         return ResponseObject.newSuccessResponseObject(resMap, SystemConstant.REQ_SUCCESS);
     }
 
-    @ApiOperation(value = "获取往期杂志页面的具体数据")
+    @ApiOperation(value = "4. 获取往期杂志页面的具体数据")
     @GetMapping("/{magCode}/detail")
     /*@ResponseBody*/
     //public ResponseObject queryMagazineInfo(@PathVariable("magCode") String magCode) throws Exception {
@@ -72,19 +72,20 @@ public class MagazineController extends BaseController {
         return ResponseObject.newSuccessResponseObject(resMap, SystemConstant.REQ_SUCCESS);
     }
 
-    @ApiOperation(value = "根据选择的年限查询期刊内容")
-    @GetMapping("/select/{magCode}/{pdDate}")
+    @ApiOperation(value = "5. 根据选择的年限查询期刊内容")
+    @GetMapping("/select/{magCode}/{year}")
     /*@ResponseBody*/
     //public ResponseObject queryMagazines(@PathVariable("magCode") String magCode, @PathVariable("pdDate") String pdDate) throws Exception {
     public ResponseObject queryMagazines(@Valid MagazineParam param, BindingResult validResult) throws Exception {
         if (validResult.hasErrors()) {
             return ResponseObject.newErrorResponseObject(SystemConstant.REQ_ILLEGAL_CODE, validErrorMsg(validResult));
         }
-        Map<String, Object> resMap = magazineService.queryMagazineInfoByMagCodeAndYear(param.getMagCode(), param.getPdDate());
+        //Map<String, Object> resMap = magazineService.queryMagazineInfoByMagCodeAndYear(param.getMagCode(), param.getPdDate());
+        Map<String, Object> resMap = magazineService.queryMagazineInfoByMagCodeAndYear(param.getMagCode(), param.getYear());
         return ResponseObject.newSuccessResponseObject(resMap, SystemConstant.REQ_SUCCESS);
     }
 
-    @ApiOperation(value = "根据条件查询期刊记录")
+    @ApiOperation(value = "6. 根据条件查询期刊记录")
     @RequestMapping(value = "/query", method = RequestMethod.POST)
     //@ResponseBody
     public ResponseObject queryByParams(@RequestParam(name = "magName", required = false) String magName,
