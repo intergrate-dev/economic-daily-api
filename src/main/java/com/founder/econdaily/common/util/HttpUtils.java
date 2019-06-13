@@ -52,8 +52,8 @@ public class HttpUtils {
 	public static String doPost(String reqUrl, Map<String, String> parameters, String token) {
 		HttpURLConnection urlConn = null;
 		try {
-			urlConn = _sendPost(reqUrl, parameters, token);
-			String responseContent = _getContent(urlConn);
+			urlConn = sendPost(reqUrl, parameters, token);
+			String responseContent = getContent(urlConn);
 			return responseContent.trim();
 		} finally {
 			if (urlConn != null) {
@@ -78,8 +78,8 @@ public class HttpUtils {
 			String filename, String contentType, byte[] data) {
 		HttpURLConnection urlConn = null;
 		try {
-			urlConn = _sendFormdata(reqUrl, parameters, fileParamName, filename, contentType, data);
-			String responseContent = new String(_getBytes(urlConn));
+			urlConn = sendFormdata(reqUrl, parameters, fileParamName, filename, contentType, data);
+			String responseContent = new String(getBytes(urlConn));
 			return responseContent.trim();
 		} catch (Exception e) {
 			throw new RuntimeException(e.getMessage(), e);
@@ -90,7 +90,7 @@ public class HttpUtils {
 		}
 	}
 
-	private static HttpURLConnection _sendFormdata(String reqUrl, Map<String, String> parameters, String fileParamName,
+	private static HttpURLConnection sendFormdata(String reqUrl, Map<String, String> parameters, String fileParamName,
 			String filename, String contentType, byte[] data) {
 		HttpURLConnection urlConn = null;
 		try {
@@ -145,7 +145,7 @@ public class HttpUtils {
 		return urlConn;
 	}
 
-	private static String _getContent(HttpURLConnection urlConn) {
+	private static String getContent(HttpURLConnection urlConn) {
 		try {
 			String responseContent = null;
 			InputStream in = urlConn.getInputStream();
@@ -167,7 +167,7 @@ public class HttpUtils {
 		}
 	}
 
-	private static byte[] _getBytes(HttpURLConnection urlConn) {
+	private static byte[] getBytes(HttpURLConnection urlConn) {
 		try {
 			InputStream in = urlConn.getInputStream();
 			ByteArrayOutputStream os = new ByteArrayOutputStream();
@@ -181,7 +181,7 @@ public class HttpUtils {
 		}
 	}
 
-	private static HttpURLConnection _sendPost(String reqUrl, Map<String, String> parameters, String token) {
+	private static HttpURLConnection sendPost(String reqUrl, Map<String, String> parameters, String token) {
 		HttpURLConnection urlConn = null;
 		try {
 			StringBuffer params = new StringBuffer();

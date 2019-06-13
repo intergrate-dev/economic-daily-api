@@ -32,6 +32,11 @@ https://www.cnblogs.com/wangrudong003/p/10122706.html
 https://www.jianshu.com/p/180a870a308a  
 https://blog.csdn.net/haoxin963/article/details/82860284  
 
+### spring security oauth jwt 
+https://www.jianshu.com/p/24764aba1012?utm_source=oschina-app
+https://blog.csdn.net/carrie__yang/article/details/77836456
+https://blog.csdn.net/chenjianandiyi/article/details/78604376
+
 
 ### springboot https  
 springboot https 后台配置与调用  
@@ -131,11 +136,22 @@ https://www.cnblogs.com/zhangdk/p/5907434.html
 ### extend  ???  
 1. monotoring: log, performance act on  
 
-2. @Valid 校验参数  
+
+### Spring Annotation
+https://www.licoy.cn/3238.html
+https://github.com/Licoy/encrypt-body-spring-boot-starter
+
+https://github.com/zlt2000/microservices-platform
+https://gitee.com/owenwangwen/open-capacity-platform
+
+
+待整合
+1. @Valid 校验参数  
 http://www.cnblogs.com/winner-0715/p/10145594.html  
 
-3. Springboot + AOP 实现参数统一非空校验
+2. Springboot + AOP 实现参数统一非空校验
 https://www.jianshu.com/p/c13a530d97f7
+
 
 
 ## 正则

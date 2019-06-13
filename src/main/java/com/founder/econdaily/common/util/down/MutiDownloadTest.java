@@ -1,11 +1,14 @@
 package com.founder.econdaily.common.util.down;
 
 
+import com.google.common.util.concurrent.ThreadFactoryBuilder;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.RandomAccessFile;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.concurrent.*;
 
 /**
  * 单线程下载
@@ -56,8 +59,15 @@ public class MutiDownloadTest {
                     }
 
                     Runnable runnable = new DownloadThreadTest(DOWNLOAD_URL,fileName,i, startIndex, endIndex);
-                    new Thread(runnable).start();
+                    /*new Thread(runnable).start();*/
+                    ThreadFactory namedThreadFactory = new ThreadFactoryBuilder()
+                            .setNameFormat("demo-pool-%d").build();
+                    ExecutorService singleThreadPool = new ThreadPoolExecutor(1, 1,
+                            0L, TimeUnit.MILLISECONDS,
+                            new LinkedBlockingQueue<Runnable>(1024), namedThreadFactory, new ThreadPoolExecutor.AbortPolicy());
 
+                    singleThreadPool.execute(()-> new Thread(runnable).start());
+                    singleThreadPool.shutdown();
                 }
             }
 

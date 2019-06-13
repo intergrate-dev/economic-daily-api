@@ -1,0 +1,622 @@
+{
+	"info": {
+		"_postman_id": "66aa414b-da0a-4819-8a4f-5fc8a2191cd5",
+		"name": "economic-daily-prod",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "magazine",
+			"item": [
+				{
+					"name": "1. 获取所有种类期刊最新一期信息",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"value": "5645645",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://www.jjrbgroup.cn:8086/economic-daily-api/magazine/newtests",
+							"protocol": "http",
+							"host": [
+								"www",
+								"jjrbgroup",
+								"cn"
+							],
+							"port": "8086",
+							"path": [
+								"economic-daily-api",
+								"magazine",
+								"newtests"
+							]
+						},
+						"description": "提供出所有种类的电子期刊的最新一期的：\r\n  期刊名称\r\n  封面图片\r\n  日期"
+					},
+					"response": []
+				},
+				{
+					"name": "2. 获取某一期刊及往期期刊信息",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "45454",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://www.jjrbgroup.cn:8086/economic-daily-api/magazine/zgjjxx/2015-12-16",
+							"protocol": "http",
+							"host": [
+								"www",
+								"jjrbgroup",
+								"cn"
+							],
+							"port": "8086",
+							"path": [
+								"economic-daily-api",
+								"magazine",
+								"zgjjxx",
+								"2015-12-16"
+							]
+						},
+						"description": "提供某一期刊的刊物名称、发布时间日期、刊物封面图、目录结构及文章、往期刊物图片、日期等"
+					},
+					"response": []
+				},
+				{
+					"name": "3. 获取某一期刊、往期期刊信息及稿件信息",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiIxIiwic3ViIjoiMzMzMzMzQHFxLmNvbSIsImlzcyI6ImVjb25vbWljX2RhaWx5IiwiaWF0IjoxNTU4NjYxMjU5LCJleHAiOjE1NTg2Njg0NTl9.kpN9o7cSdZcXA0WPsRI1xaOuWdzvwIHLFkmMQQLSKug",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://www.jjrbgroup.cn:8086/economic-daily-api/magazine/606522",
+							"protocol": "http",
+							"host": [
+								"www",
+								"jjrbgroup",
+								"cn"
+							],
+							"port": "8086",
+							"path": [
+								"economic-daily-api",
+								"magazine",
+								"606522"
+							]
+						},
+						"description": "在期刊目录中点击某一具体内容后，进入页面需要展示的刊物目录结构、文章结构、日期、标题、图集图片、内容正文、内容图片、往期杂志图、往期杂志时间等"
+					},
+					"response": []
+				},
+				{
+					"name": "4. 获取往期杂志页面的具体数据",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiIxIiwic3ViIjoiMzMzMzMzQHFxLmNvbSIsImlzcyI6ImVjb25vbWljX2RhaWx5IiwiaWF0IjoxNTU4NjYxMjU5LCJleHAiOjE1NTg2Njg0NTl9.kpN9o7cSdZcXA0WPsRI1xaOuWdzvwIHLFkmMQQLSKug",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://www.jjrbgroup.cn:8086/economic-daily-api/magazine/zgjjxx/detail",
+							"protocol": "http",
+							"host": [
+								"www",
+								"jjrbgroup",
+								"cn"
+							],
+							"port": "8086",
+							"path": [
+								"economic-daily-api",
+								"magazine",
+								"zgjjxx",
+								"detail"
+							]
+						},
+						"description": "点击进入期刊往期杂志页面后，根据点击的刊物名称给出默认的内容，并默认年限为最新"
+					},
+					"response": []
+				},
+				{
+					"name": "5. 根据选择的年限查询期刊内容",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiIxIiwic3ViIjoiMzMzMzMzQHFxLmNvbSIsImlzcyI6ImVjb25vbWljX2RhaWx5IiwiaWF0IjoxNTU4NjYxMjU5LCJleHAiOjE1NTg2Njg0NTl9.kpN9o7cSdZcXA0WPsRI1xaOuWdzvwIHLFkmMQQLSKug",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://www.jjrbgroup.cn:8086/economic-daily-api/magazine/select/zgjjxx/2015-08-16",
+							"protocol": "http",
+							"host": [
+								"www",
+								"jjrbgroup",
+								"cn"
+							],
+							"port": "8086",
+							"path": [
+								"economic-daily-api",
+								"magazine",
+								"select",
+								"zgjjxx",
+								"2015-08-16"
+							]
+						},
+						"description": "在往期刊物展示页面，点击时间选择后，根据选择的时间（年），给出对应的输出结果"
+					},
+					"response": []
+				},
+				{
+					"name": "6. 根据条件查询期刊记录",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"value": "eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiIxIiwic3ViIjoiMzMzMzMzQHFxLmNvbSIsImlzcyI6ImVjb25vbWljX2RhaWx5IiwiaWF0IjoxNTU4NjYxMjU5LCJleHAiOjE1NTg2Njg0NTl9.kpN9o7cSdZcXA0WPsRI1xaOuWdzvwIHLFkmMQQLSKug",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://www.jjrbgroup.cn:8086/economic-daily-api/magazine/query?magName=%E7%BB%8F%E6%B5%8E&pdDate=2015-01-01&pageNo=1&limit=10",
+							"protocol": "http",
+							"host": [
+								"www",
+								"jjrbgroup",
+								"cn"
+							],
+							"port": "8086",
+							"path": [
+								"economic-daily-api",
+								"magazine",
+								"query"
+							],
+							"query": [
+								{
+									"key": "magName",
+									"value": "%E7%BB%8F%E6%B5%8E"
+								},
+								{
+									"key": "pdDate",
+									"value": "2015-01-01"
+								},
+								{
+									"key": "pageNo",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "10"
+								}
+							]
+						},
+						"description": "根据刊物名、日期等条件检索期刊记录"
+					},
+					"response": []
+				}
+			],
+			"description": "期刊相关接口",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "97af4977-4f51-422a-9e49-ef25ca7467e0",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "400f0d3a-9555-4eb8-8bb3-b98961148020",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "newspaper",
+			"item": [
+				{
+					"name": "1. 获取所有报纸最新版信息",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"value": "eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiIxIiwic3ViIjoiMzMzMzMzQHFxLmNvbSIsImlzcyI6ImVjb25vbWljX2RhaWx5IiwiaWF0IjoxNTU4NjYxMjU5LCJleHAiOjE1NTg2Njg0NTl9.kpN9o7cSdZcXA0WPsRI1xaOuWdzvwIHLFkmMQQLSKug",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://www.jjrbgroup.cn:8086/economic-daily-api/newsPaper/newtests",
+							"protocol": "http",
+							"host": [
+								"www",
+								"jjrbgroup",
+								"cn"
+							],
+							"port": "8086",
+							"path": [
+								"economic-daily-api",
+								"newsPaper",
+								"newtests"
+							]
+						},
+						"description": "点击进入栏目（电子报），接口提供出所有种类的电子版的最新一期的\r\n电子报名称，封面图片，日期，版面数量等"
+					},
+					"response": []
+				},
+				{
+					"name": "2. 获取某一报纸的信息",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "454545",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://www.jjrbgroup.cn:8086/economic-daily-api/newsPaper/645503/paperDates",
+							"protocol": "http",
+							"host": [
+								"www",
+								"jjrbgroup",
+								"cn"
+							],
+							"port": "8086",
+							"path": [
+								"economic-daily-api",
+								"newsPaper",
+								"645503",
+								"paperDates"
+							]
+						},
+						"description": "在列表中点击某一报纸封面后，报纸内容展示界面的日历位置"
+					},
+					"response": []
+				},
+				{
+					"name": "3. 获取某一期版面信息",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiIxIiwic3ViIjoiMzMzMzMzQHFxLmNvbSIsImlzcyI6ImVjb25vbWljX2RhaWx5IiwiaWF0IjoxNTU4NjYxMjU5LCJleHAiOjE1NTg2Njg0NTl9.kpN9o7cSdZcXA0WPsRI1xaOuWdzvwIHLFkmMQQLSKug",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://www.jjrbgroup.cn:8086/economic-daily-api/newsPaper/jjrb/2019-04-15",
+							"protocol": "http",
+							"host": [
+								"www",
+								"jjrbgroup",
+								"cn"
+							],
+							"port": "8086",
+							"path": [
+								"economic-daily-api",
+								"newsPaper",
+								"jjrb",
+								"2019-04-15"
+							]
+						},
+						"description": "提供某一期报纸的头版版面小图、内容坐标、版面目录、头版内容列表、版面原图等"
+					},
+					"response": []
+				},
+				{
+					"name": "4. 获取某一期报纸某一版面信息",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "435454",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://www.jjrbgroup.cn:8086/economic-daily-api/newsPaper/jjrb/2019-04-30/1",
+							"protocol": "http",
+							"host": [
+								"www",
+								"jjrbgroup",
+								"cn"
+							],
+							"port": "8086",
+							"path": [
+								"economic-daily-api",
+								"newsPaper",
+								"jjrb",
+								"2019-04-30",
+								"1"
+							]
+						},
+						"description": "提供某一期报纸的某一版面的小图、内容坐标、版面内容列表、版面原图等"
+					},
+					"response": []
+				},
+				{
+					"name": "5. 获取某一文章信息",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiIxIiwic3ViIjoiMzMzMzMzQHFxLmNvbSIsImlzcyI6ImVjb25vbWljX2RhaWx5IiwiaWF0IjoxNTU4NjYxMjU5LCJleHAiOjE1NTg2Njg0NTl9.kpN9o7cSdZcXA0WPsRI1xaOuWdzvwIHLFkmMQQLSKug",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://www.jjrbgroup.cn:8086/economic-daily-api/newsPaper/queryArticle/962",
+							"protocol": "http",
+							"host": [
+								"www",
+								"jjrbgroup",
+								"cn"
+							],
+							"port": "8086",
+							"path": [
+								"economic-daily-api",
+								"newsPaper",
+								"queryArticle",
+								"962"
+							]
+						},
+						"description": "提供某一篇内容的标题、摘要、日期、来源、内容、图集图片、本版内容坐标、内容图片等。"
+					},
+					"response": []
+				}
+			],
+			"description": "电子报相关接口"
+		},
+		{
+			"name": "historySource",
+			"item": [
+				{
+					"name": "1.  电子报--文章资源",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"value": "eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiIxIiwic3ViIjoiMzMzMzMzQHFxLmNvbSIsImlzcyI6ImVjb25vbWljX2RhaWx5IiwiaWF0IjoxNTU4NjYwODkzLCJleHAiOjE1NTg2NjgwOTN9.Nn67Urq7icKegbYWTjq7RB63spCgl7slNAXSS8sn9SI",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://www.jjrbgroup.cn:8086/economic-daily-api/historySource/newsPapers/query?pageNo=1&limit=10",
+							"protocol": "http",
+							"host": [
+								"www",
+								"jjrbgroup",
+								"cn"
+							],
+							"port": "8086",
+							"path": [
+								"economic-daily-api",
+								"historySource",
+								"newsPapers",
+								"query"
+							],
+							"query": [
+								{
+									"key": "pageNo",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "10"
+								}
+							]
+						},
+						"description": "历史资源（电子报、期刊）的全部文章及其对应字段及对应内容，图片等"
+					},
+					"response": []
+				},
+				{
+					"name": "2. 期刊--文章资源",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"value": "eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiIxIiwic3ViIjoiMzMzMzMzQHFxLmNvbSIsImlzcyI6ImVjb25vbWljX2RhaWx5IiwiaWF0IjoxNTU4NjYwODkzLCJleHAiOjE1NTg2NjgwOTN9.Nn67Urq7icKegbYWTjq7RB63spCgl7slNAXSS8sn9SI",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://www.jjrbgroup.cn:8086/economic-daily-api/historySource/magazines/query?pageNo=1&limit=10",
+							"protocol": "http",
+							"host": [
+								"www",
+								"jjrbgroup",
+								"cn"
+							],
+							"port": "8086",
+							"path": [
+								"economic-daily-api",
+								"historySource",
+								"magazines",
+								"query"
+							],
+							"query": [
+								{
+									"key": "pageNo",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "10"
+								}
+							]
+						},
+						"description": "历史资源（电子报、期刊）的全部文章及其对应字段及对应内容，图片等"
+					},
+					"response": []
+				},
+				{
+					"name": "3. 期刊原件",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "56544353",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": ""
+						},
+						"description": "期刊原始文件：pdf、xlm、内容附件等，需要压缩并通过接口提供。\r\n期刊：以日为单位，根据期刊名称/年-月-日进行压缩"
+					},
+					"response": []
+				},
+				{
+					"name": "4. 电子报原件",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "453453",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": ""
+						},
+						"description": "电子报的原始文件：pdf、xlm、内容附件等，需要压缩并通过接口提供，存入区块链中。\r\n报纸：以日为单位，根据报纸名称/年-月-日进行压缩\r\n"
+					},
+					"response": []
+				}
+			],
+			"description": "历史资源接口"
+		},
+		{
+			"name": "用户认证",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://www.jjrbgroup.cn:8086/economic-daily-api/auth/login?username=333333%40qq.com&password=123456",
+					"protocol": "http",
+					"host": [
+						"www",
+						"jjrbgroup",
+						"cn"
+					],
+					"port": "8086",
+					"path": [
+						"economic-daily-api",
+						"auth",
+						"login"
+					],
+					"query": [
+						{
+							"key": "username",
+							"value": "333333%40qq.com"
+						},
+						{
+							"key": "password",
+							"value": "123456"
+						}
+					]
+				},
+				"description": "用户登录换取token"
+			},
+			"response": []
+		}
+	]
+}

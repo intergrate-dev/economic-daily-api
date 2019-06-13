@@ -10,7 +10,7 @@ import java.util.GregorianCalendar;
 import java.util.Locale;
 import java.util.TimeZone;
 
-public abstract class ConvertUtils {
+public class ConvertUtils {
 
     private static final DecimalFormat simpleFormat = new DecimalFormat("####");
 

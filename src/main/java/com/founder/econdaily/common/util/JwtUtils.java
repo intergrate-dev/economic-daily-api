@@ -1,5 +1,8 @@
 package com.founder.econdaily.common.util;
 
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.exceptions.JWTDecodeException;
+import com.auth0.jwt.interfaces.DecodedJWT;
 import com.founder.econdaily.common.constant.SystemConstant;
 import com.founder.econdaily.common.entity.CheckResult;
 import io.jsonwebtoken.*;
@@ -74,4 +77,12 @@ public class JwtUtils {
 			.getBody();
 	}
 
+	public static String get(String token,String key) {
+		try {
+			DecodedJWT jwt = JWT.decode(token);
+			return jwt.getClaim(key).asString();
+		} catch (JWTDecodeException e) {
+			return null;
+		}
+	}
 }

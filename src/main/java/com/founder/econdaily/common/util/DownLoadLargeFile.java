@@ -14,11 +14,10 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import java.util.concurrent.*;
 import java.util.regex.Pattern;
 
+import org.apache.commons.lang3.concurrent.BasicThreadFactory;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.CloseableHttpResponse;
@@ -36,6 +35,7 @@ import org.apache.log4j.Logger;
 public class DownLoadLargeFile {
 
     private static final Logger log = Logger.getLogger(DownLoadLargeFile.class);
+    private static Pattern NUMBER_PATTERN = Pattern.compile("[0-9]*");
 
     // 测试标记
     private static boolean isTest = true;
@@ -104,13 +104,17 @@ public class DownLoadLargeFile {
         if (fileCfg.getDnldStatus() == 0) {
             if (fileCfg.getFilePartList() != null && fileCfg.getFilePartList().size() > 0) {
                 CountDownLatch end = new CountDownLatch(fileCfg.getFilePartList().size());
-                ExecutorService cachedThreadPool = Executors.newCachedThreadPool();
+                //ExecutorService cachedThreadPool = Executors.newCachedThreadPool();
+                ScheduledExecutorService executorService = new ScheduledThreadPoolExecutor(1,
+                        new BasicThreadFactory.Builder().namingPattern("example-schedule-pool-%d").daemon(true).build());
+
 
                 for (FilePart filePart : fileCfg.getFilePartList()) {
                     if (!filePart.isFinish()) {
                         // 仅下载未完成的文件片段
                         DownloadThread downloadThread = new DownloadThread(filePart, end, httpClient);
-                        cachedThreadPool.execute(downloadThread);
+                        //cachedThreadPool.execute(downloadThread);
+                        executorService.execute(downloadThread);
                     }
                 }
                 try {
@@ -159,7 +163,7 @@ public class DownLoadLargeFile {
         // 待下载的文件链接
         private String fileName = null;
         // 待下载的文件长度
-        private long fileSize = 0l;
+        private long fileSize = 0L;
         // 每个线程下载的字节数
         private int unitSize = 1024000;
         // 下载状态
@@ -290,8 +294,7 @@ public class DownLoadLargeFile {
             if (str == null || str.trim().length() < 1) {
                 return false;
             }
-            Pattern pattern = Pattern.compile("[0-9]*");
-            return pattern.matcher(str).matches();
+            return NUMBER_PATTERN.matcher(str).matches();
         }
 
         public String getUrl() {
@@ -640,6 +643,7 @@ public class DownLoadLargeFile {
             }
         }
 
+        @Override
         public void run() {
             try {
                 HttpGet httpGet = new HttpGet(filePart.getUrl());

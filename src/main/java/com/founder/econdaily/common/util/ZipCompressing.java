@@ -4,8 +4,7 @@ package com.founder.econdaily.common.util; /**
  * Package Name:com.monitoring.common.util
  * Date:2017年4月20日上午11:19:35
  * Copyright (c) 2017, chenzhou1025@126.com All Rights Reserved.
- *
-*/
+ */
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -22,7 +21,7 @@ import java.util.zip.ZipOutputStream;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
- 
+
 
 /**
  * ClassName: com.founder.econdaily.common.util.ZipCompressing <br/>
@@ -31,16 +30,18 @@ import org.apache.log4j.Logger;
  * date: 2017年4月20日 上午11:41:01 <br/>
  *
  * @author wpengfei
- * @version 
+ * @version
  * @since JDK 1.6
  */
 public class ZipCompressing {
     private static final Logger logger = Logger.getLogger(ZipCompressing.class);
- 
+
     static int k = 1; // 定义递归次数变量
-    public ZipCompressing() {}
- 
- 
+
+    public ZipCompressing() {
+    }
+
+
     /**
      * 压缩指定的单个或多个文件，如果是目录，则遍历目录下所有文件进行压缩
      * @param zipFileName ZIP文件名包含全路径
@@ -48,7 +49,7 @@ public class ZipCompressing {
      */
     @SuppressWarnings("unused")
     public static boolean zip(String zipFileName, File... files) {
-        logger.info("压缩: "+zipFileName);
+        logger.info("压缩: " + zipFileName);
         ZipOutputStream out = null;
         BufferedOutputStream bo = null;
         try {
@@ -68,11 +69,11 @@ public class ZipCompressing {
         }
         return false;
     }
- 
-    
+
+
     public static boolean zip(String zipFileName, List<File> fileList) {
-    	
-    	ZipOutputStream out = null;
+
+        ZipOutputStream out = null;
         BufferedOutputStream bo = null;
         try {
             createDir(zipFileName);
@@ -91,7 +92,7 @@ public class ZipCompressing {
         }
         return false;
     }
-    
+
     /**
      * 执行压缩
      * @param out ZIP输入流
@@ -116,7 +117,7 @@ public class ZipCompressing {
                     logger.error(e.getMessage());
                     e.printStackTrace();
                 }
-            }else{ //压缩单个文件
+            } else { //压缩单个文件
                 logger.info(base);
                 out.putNextEntry(new ZipEntry(base)); // 创建zip实体
                 FileInputStream in = new FileInputStream(f);
@@ -128,38 +129,38 @@ public class ZipCompressing {
                 out.closeEntry(); //关闭zip实体
                 in.close(); // 输入流关闭
             }
- 
+
         } catch (IOException e) {
             logger.error(e.getMessage());
             e.printStackTrace();
         }
     }
- 
- 
+
+
     /**
      * 目录不存在时，先创建目录
      * @param zipFileName
      */
-    private static void createDir(String zipFileName){
+    private static void createDir(String zipFileName) {
         String filePath = StringUtils.substringBeforeLast(zipFileName, "/");
         File targetFile = new File(filePath);
         if (!targetFile.exists()) {//目录不存在时，先创建目录
             targetFile.mkdirs();
         }
     }
- 
- 
+
+
     /**
      * @param args
      */
     public static void main(String[] args) {
         try {
-        	
+
 //            com.founder.econdaily.common.util.ZipCompressing.zip("E:\\hospital\\trunk\\MonitoringPlatform-commons-util\\src\\main\\java\\com\\monitoring\\common\\util\\test1.zip",new File("E:\\hospital\\trunk\\MonitoringPlatform-commons-util\\src\\main\\java\\com\\monitoring\\common\\util\\Constants.java"));    //测试单个文件
-           // com.founder.econdaily.common.util.ZipCompressing.zip("F:/test2.zip", new File("F:/common.mdb"), new File("F:/《浙江省食品安全风险监测信息》开发计划.xlsx"));   //测试多个文件
-           // com.founder.econdaily.common.util.ZipCompressing.zip("F:/test3.zip", new File("F:/test")); //测试压缩目录
-            
-        	
+            // com.founder.econdaily.common.util.ZipCompressing.zip("F:/test2.zip", new File("F:/common.mdb"), new File("F:/《浙江省食品安全风险监测信息》开发计划.xlsx"));   //测试多个文件
+            // com.founder.econdaily.common.util.ZipCompressing.zip("F:/test3.zip", new File("F:/test")); //测试压缩目录
+
+
 //        	com.founder.econdaily.common.util.ZipCompressing.zip("F:\\1\\test/test3.zip", new File("F:\\1\\test\\2/1.xlsx"), new File("F:\\1\\test\\2/2.xlsx"));
         	
         	/*List<File> list = new ArrayList<File>();
@@ -167,36 +168,36 @@ public class ZipCompressing {
         	list.add(new File("F:\\1\\test\\2/2.xlsx"));
         	
         	com.founder.econdaily.common.util.ZipCompressing.zip("F:\\1\\test/test3.zip", list);*/
-        	
-        	File oldFile = new File("F:\\\\1\\\\test\\\\2/1.xlsx");
-        	File newFile = new File("F:\\\\1\\\\test\\\\2/1COPY.xlsx");
-        	forChannel(oldFile, newFile);
-            
+
+            File oldFile = new File("F:\\\\1\\\\test\\\\2/1.xlsx");
+            File newFile = new File("F:\\\\1\\\\test\\\\2/1COPY.xlsx");
+            forChannel(oldFile, newFile);
+
         } catch (Exception e) {
             e.printStackTrace();
         }
- 
+
     }
-    
-    public static long forChannel(File f1,File f2) throws Exception{
-        long time=new Date().getTime();
-        int length=2097152;
-        FileInputStream in=new FileInputStream(f1);
-        FileOutputStream out=new FileOutputStream(f2);
-        FileChannel inC=in.getChannel();
-        FileChannel outC=out.getChannel();
-        ByteBuffer b=null;
-        while(true){
-            if(inC.position()==inC.size()){
+
+    public static long forChannel(File f1, File f2) throws Exception {
+        long time = System.currentTimeMillis();
+        int length = 2097152;
+        FileInputStream in = new FileInputStream(f1);
+        FileOutputStream out = new FileOutputStream(f2);
+        FileChannel inC = in.getChannel();
+        FileChannel outC = out.getChannel();
+        ByteBuffer b = null;
+        while (true) {
+            if (inC.position() == inC.size()) {
                 inC.close();
                 outC.close();
-                return new Date().getTime()-time;
+                return System.currentTimeMillis() - time;
             }
-            if((inC.size()-inC.position())<length){
-                length=(int)(inC.size()-inC.position());
-            }else
-                length=2097152;
-            b=ByteBuffer.allocateDirect(length);
+            if ((inC.size() - inC.position()) < length) {
+                length = (int) (inC.size() - inC.position());
+            } else
+                length = 2097152;
+            b = ByteBuffer.allocateDirect(length);
             inC.read(b);
             b.flip();
             outC.write(b);
