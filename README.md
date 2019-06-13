@@ -72,9 +72,9 @@ https://www.jianshu.com/p/3609c9a3f3be
 https://www.cnblogs.com/java-zhao/p/5769018.html  
 
 ### open api  
-https://blog.csdn.net/lucky373125/article/details/80471525
-规范
-https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.2.md
+https://blog.csdn.net/lucky373125/article/details/80471525  
+规范  
+https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.2.md  
 
 
 
