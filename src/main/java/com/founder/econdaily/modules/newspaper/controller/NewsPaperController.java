@@ -24,7 +24,7 @@ public class NewsPaperController extends BaseController {
     @Autowired
     private NewsPaperService newsPaperService;
 
-    @ApiOperation(value = "获取所有报纸最新版信息")
+    @ApiOperation(value = "1. 获取所有报纸最新版信息")
     @RequestMapping(value = "/newtests",method = RequestMethod.POST)
     //@ResponseBody
     public ResponseObject newtests() throws Exception{
@@ -32,7 +32,7 @@ public class NewsPaperController extends BaseController {
         return ResponseObject.newSuccessResponseObject(resMap, SystemConstant.REQ_SUCCESS);
     }
 
-    @ApiOperation(value = "获取某一报纸信息")
+    @ApiOperation(value = "2. 获取某一报纸信息")
     @GetMapping(value = "/{attachId}/paperDates")
     //@ResponseBody
     //public ResponseObject queryPaperDates(@PathVariable("attachId") String attachId) throws Exception {
@@ -44,7 +44,7 @@ public class NewsPaperController extends BaseController {
         return ResponseObject.newSuccessResponseObject(resMap, SystemConstant.REQ_SUCCESS);
     }
 
-    @ApiOperation(value = "获取某一期版面信息")
+    @ApiOperation(value = "3. 获取某一期版面信息")
     @GetMapping("/{paperCode}/{plDate}")
     /*@ResponseBody*/
     //public ResponseObject queryByCodeAndPlDate(@PathVariable("paperCode") String paperCode, @PathVariable("plDate") String plDate) throws Exception{
@@ -56,7 +56,7 @@ public class NewsPaperController extends BaseController {
         return ResponseObject.newSuccessResponseObject(resMap, SystemConstant.REQ_SUCCESS);
     }
 
-    @ApiOperation(value = "获取某一期报纸某一版面信息")
+    @ApiOperation(value = "4. 获取某一期报纸某一版面信息")
     @GetMapping("/{paperCode}/{plDate}/{layout}")
     /*@ResponseBody*/
     /*public ResponseObject queryByCodeAndPlDateAndLayout(@PathVariable("paperCode") String paperCode, @PathVariable("plDate") String plDate,
@@ -69,7 +69,7 @@ public class NewsPaperController extends BaseController {
         return ResponseObject.newSuccessResponseObject(resMap, SystemConstant.REQ_SUCCESS);
     }
 
-    @ApiOperation(value = "获取某一文章信息")
+    @ApiOperation(value = "5. 获取某一文章信息")
     @GetMapping("/queryArticle/{articleId}")
     /*@ResponseBody*/
     //public ResponseObject queryByArticleId(@PathVariable("articleId") String articleId) throws Exception{

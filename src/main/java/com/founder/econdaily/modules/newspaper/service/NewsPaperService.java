@@ -16,8 +16,6 @@ public interface NewsPaperService {
 
     Map<String, Object> findNewtests() throws Exception;
 
-    JSONArray cacheNewtestPapers1() throws Exception;
-
     @Async
     List<PaperLayout> cacheNewtestPapers() throws Exception;
 

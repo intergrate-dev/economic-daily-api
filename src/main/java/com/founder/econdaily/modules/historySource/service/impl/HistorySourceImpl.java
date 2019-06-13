@@ -1,6 +1,7 @@
 package com.founder.econdaily.modules.historySource.service.impl;
 
 import com.founder.econdaily.common.util.DateParseUtil;
+import com.founder.econdaily.common.util.RegxUtil;
 import com.founder.econdaily.modules.historySource.service.HistorySourceService;
 import com.founder.econdaily.modules.magazine.entity.MagazineArticle;
 import com.founder.econdaily.modules.magazine.repository.MagazineAttachmentRepository;
@@ -67,7 +68,7 @@ public class HistorySourceImpl implements HistorySourceService {
                     DateParseUtil.dateToStringWithSplit(magazineArticle.getPubTime())));*/
             String pics = magazineAttachmentRepository.queryArticlePicsByArticleIdAndLibId(magazineArticle.getId(), MagazineArticle.ARTICLE_LIB_ID);
             if (!StringUtils.isEmpty(pics)) {
-                magazineArticle.setPics(Arrays.asList(pics.split(",")));
+                magazineArticle.setPics(Arrays.asList(pics.split(RegxUtil.COMMA_SPLIT)));
             }
         }
         map.put("list", magazineArticles);

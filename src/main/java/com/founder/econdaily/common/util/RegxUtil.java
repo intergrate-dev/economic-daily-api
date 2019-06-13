@@ -1,9 +1,6 @@
 package com.founder.econdaily.common.util;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import static java.util.regex.Pattern.compile;
 
@@ -13,6 +10,7 @@ public class RegxUtil {
     public static final String REG_ZERO = "0";
     public static final String PATH_SPLIT = "/";
     public static final String STRIP_SPLIT = "-";
+    public static final String COMMA_SPLIT = ",";
 
     public static final String REG_ZH = "^[\\u4e00-\\u9fa5]";
     public static final String REG_TX = "(?<=\\[)(.+?)(?=\\])";

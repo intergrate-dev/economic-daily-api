@@ -1,5 +1,6 @@
 package com.founder.econdaily.modules.magazine.repository;
 
+import com.founder.econdaily.common.util.RegxUtil;
 import com.founder.econdaily.modules.magazine.dto.MagazineVo;
 import com.founder.econdaily.modules.magazine.dto.MagzineDateVo;
 import com.founder.econdaily.modules.magazine.entity.Magazine;
@@ -77,7 +78,7 @@ public class MagazineDateRepository {
         sql.append("SELECT pd_paperID as pdPaperID, pd_date as pdDate FROM xy_magdate where pd_paperID = ? ")
                 .append("and pd_year = ? and pd_date <> ? group by pd_date order by pd_date DESC ");
         List<Magazine> list = null;
-        String[] split = pdDate.split("-");
+        String[] split = pdDate.split(RegxUtil.STRIP_SPLIT);
         list = jdbcTemplate.query(sql.toString(), new Object[]{paperId, split[0], pdDate}, new BeanPropertyRowMapper(Magazine.class));
         return list;
     }

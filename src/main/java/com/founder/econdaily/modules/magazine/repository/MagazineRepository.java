@@ -31,6 +31,13 @@ public class MagazineRepository {
         return list != null && list.size() > 0 ? list.get(0) : null;
     }
 
+    public MagazineVo queryByMagName(String magName) {
+        StringBuffer sql = new StringBuffer();
+        sql.append("select SYS_DOCUMENTID as magId, pa_code as magCode from xy_magazine where pa_name = ? ");
+        List<MagazineVo> list = jdbcTemplate.query(sql.toString(), new Object[]{magName}, new BeanPropertyRowMapper(MagazineVo.class));
+        return list != null && list.size() > 0 ? list.get(0) : null;
+    }
+
     public List<MagCatalog> queryCatalogsByPdDate(String pdDate, String magId) {
         StringBuffer sql = new StringBuffer();
         sql.append("SELECT GROUP_CONCAT(SYS_TOPIC) as artiTopics, a_column as columnName " +

@@ -79,7 +79,7 @@ public class HistorySourceController extends BaseController {
         logger.info("recursion take time: {}", time_2 - time_1);
 
 
-        String fileName = "magazine-".concat(param.getMagCode().concat("-").concat(param.getPdDate()).concat(".zip"));
+        String fileName = "magazine-".concat(param.getMagCode().concat(RegxUtil.STRIP_SPLIT).concat(param.getPdDate()).concat(".zip"));
         response.setContentType("text/html; charset=UTF-8");
         response.setContentType("application/x-msdownload;");
         response.setHeader("Content-disposition", "attachment;filename=".concat(fileName));
@@ -128,7 +128,7 @@ public class HistorySourceController extends BaseController {
         long time_2 = System.currentTimeMillis();
         logger.info("recursion take time: {}", time_2 - time_1);
 
-        String fileName = "paper-".concat(param.getPaperCode().concat("-").concat(param.getPlDate()).concat(".zip"));
+        String fileName = "paper-".concat(param.getPaperCode().concat(RegxUtil.STRIP_SPLIT).concat(param.getPlDate()).concat(".zip"));
         response.setContentType("text/html; charset=UTF-8");
         response.setContentType("application/x-msdownload;");
         response.setHeader("Content-disposition", "attachment;filename=".concat(fileName));

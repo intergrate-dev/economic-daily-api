@@ -2,6 +2,7 @@ package com.founder.econdaily.modules.newspaper.entity;
 
 public class PaperAttachment {
 
+    public static final String ATT_TYPE_PDF_LAYOUT = "6";
     public static final String ATT_TYPE_COVER_LAYOUT = "5";
     public static final String ATT_TYPE_COVER_ARTICLE = "0";
 

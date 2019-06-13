@@ -2,6 +2,7 @@ package com.founder.econdaily.modules.magazine.service.impl;
 
 import com.founder.ark.common.utils.DateUtil;
 import com.founder.econdaily.common.util.DateParseUtil;
+import com.founder.econdaily.common.util.RegxUtil;
 import com.founder.econdaily.modules.magazine.dto.MagazineVo;
 import com.founder.econdaily.modules.magazine.dto.MagzineDateVo;
 import com.founder.econdaily.modules.magazine.entity.MagCatalog;
@@ -41,20 +42,35 @@ public class MagazineServiceImpl implements MagazineService {
 	@Autowired
 	private MagazineDateRepository magazineDateRepository;
 
+	private  MagazineVo parseEntity(Magazine magazine) {
+		MagazineVo mv = new MagazineVo();
+		mv.setPdDate(DateParseUtil.dateToString(magazine.getPdDate()));
+		mv.setCoverPic(magazine.getCoverPic());
+		mv.setMagName(magazine.getPdJName());
+		String sr = magazine.getPdJName();
+		if (sr.startsWith("《")) {
+			sr = sr.substring(sr.indexOf("《") + 1, sr.indexOf("》"));
+		}
+		MagazineVo magazineVo = magazineRepository.queryByMagName(sr);
+		if (magazineVo != null) {
+			mv.setMagCode(magazineVo.getMagCode());
+		}
+		return mv;
+	}
 
 	@Override
 	public Map<String, Object> queryMagNewtests() throws Exception {
 		Map<String, Object> map = new HashMap<String, Object>();
 		List<Magazine> magazines = magazineDateRepository.findNewtestPaper();
+		List<MagazineVo> mvs = new ArrayList<MagazineVo>();
 		for (Magazine mag : magazines) {
-			if (mag.getPdDate() == null) {
-				mag.setCoverPic(null);
-				continue;
+			if (mag.getPdDate() != null) {
+				mag.setCoverPic(magAttachmentRepository.findCoverByArticleIdAndLibId(mag.getId(), Magazine.LAYOUT_LIB_ID,
+						DateParseUtil.dateToStringWithSplit(mag.getPdDate())));
 			}
-			mag.setCoverPic(magAttachmentRepository.findCoverByArticleIdAndLibId(mag.getId(), Magazine.LAYOUT_LIB_ID,
-					DateParseUtil.dateToStringWithSplit(mag.getPdDate())));
+			mvs.add(this.parseEntity(mag));
 		}
-		map.put("magNewtests", magazines);
+		map.put("magNewtests", mvs);
 		return map;
 	}
 
@@ -75,7 +91,7 @@ public class MagazineServiceImpl implements MagazineService {
 			cMap.put("theme", magCatalog.getColumnName());
 			cMap.put("artiTopics", null);
 			if (!StringUtils.isEmpty(magCatalog.getArtiTopics())) {
-				cMap.put("artiTopics", magCatalog.getArtiTopics().split(","));
+				cMap.put("artiTopics", magCatalog.getArtiTopics().split(RegxUtil.COMMA_SPLIT));
 			}
 			list.add(cMap);
 		}
@@ -111,7 +127,7 @@ public class MagazineServiceImpl implements MagazineService {
 				cMap.put("theme", magCatalog.getColumnName());
 				cMap.put("artiTopics", null);
 				if (!StringUtils.isEmpty(magCatalog.getArtiTopics())) {
-					cMap.put("artiTopics", magCatalog.getArtiTopics().split(","));
+					cMap.put("artiTopics", magCatalog.getArtiTopics().split(RegxUtil.COMMA_SPLIT));
 				}
 				list.add(cMap);
 			}
@@ -120,7 +136,7 @@ public class MagazineServiceImpl implements MagazineService {
 		map.put("magazine", mag);*/
 		map.put("magCatalog", list);
 		//图集
-		map.put("magPics", magAttachmentRepository.findCoverByArticle(articleId).split(","));
+		map.put("magPics", magAttachmentRepository.findCoverByArticle(articleId).split(RegxUtil.COMMA_SPLIT));
 		map.put("content", article.getContent());
 		// TODO 正文（内容）图？
 		map.put("contentPics", new ArrayList<String>());
@@ -158,7 +174,8 @@ public class MagazineServiceImpl implements MagazineService {
 		for (MagzineDateVo magVo : magaZineDateVos) {
 			magazine = new MagazineVo();
 			magazine.setMagName(magVo.getMagName());
-			magazine.setPdDate(magVo.getPdDate());
+			//magazine.setPdDate(magVo.getPdDate());
+			magazine.setPdDate(DateParseUtil.dateToString(magVo.getPdDate()));
 			magazine.setCoverPic(magAttachmentRepository.findCoverByArticleIdAndLibId(mag.getMagId(), Magazine.LAYOUT_LIB_ID,
 					DateParseUtil.dateToStringWithSplit(magVo.getPdDate())));
 			list.add(magazine);
@@ -175,17 +192,22 @@ public class MagazineServiceImpl implements MagazineService {
 		List<MagazineVo> mvList = new ArrayList<MagazineVo>();
 		List<MagzineDateVo> magzineDateVos = magazineDateRepository.queryDatesByPdPaperId(magCode);
 		for (MagzineDateVo magzineDateVo : magzineDateVos) {
-			List<MagzineDateVo> list = magazineDateRepository.queryDatesByPdPaperIdAndPdYear(magzineDateVo.getMagId(), magzineDateVo.getLatestYear());
+			// pdDate: year
+			List<MagzineDateVo> list = magazineDateRepository.queryDatesByPdPaperIdAndPdYear(magzineDateVo.getMagId(), pdDate);
 			MagazineVo magazine = null;
 			for (MagzineDateVo dateVo : list) {
 				magazine = new MagazineVo();
 				if (dateVo.getPdDate() != null) {
-					magazine.setCoverPic(magAttachmentRepository.queryCoversAll(magzineDateVo.getMagId(), Magazine.LAYOUT_LIB_ID,
-							DateParseUtil.dateToStringWithSplit(dateVo.getPdDate())));
+					/*magazine.setCoverPic(magAttachmentRepository.queryCoversAll(magzineDateVo.getMagId(), Magazine.LAYOUT_LIB_ID,
+							DateParseUtil.dateToStringWithSplit(dateVo.getPdDate())));*/
+					/*magazine.setCoverPic(magAttachmentRepository.queryCoversMagCoverPic(magzineDateVo.getMagId(),
+							Magazine.LAYOUT_LIB_ID, DateParseUtil.dateToStringWithSplit(dateVo.getPdDate())));*/
+					magazine.setCoverPic(magAttachmentRepository.findCoverByArticleIdAndLibId(magzineDateVo.getMagId(),
+							Magazine.LAYOUT_LIB_ID, DateParseUtil.dateToStringWithSplit(dateVo.getPdDate())));
 				}
 				magazine.setMagName(dateVo.getMagName());
 				//magazine.setPdDate(dateVo.getPdDate());
-				magazine.setPdDate(dateVo.getPdDate());
+				magazine.setPdDate(DateParseUtil.dateToString(dateVo.getPdDate()));
 				mvList.add(magazine);
 			}
 		}
@@ -218,8 +240,10 @@ public class MagazineServiceImpl implements MagazineService {
 		}
 		List<MagazineVo> magazines = magazineDateRepository.queryByParams(sql, params, pageNo, limit);
 		for (MagazineVo magazine : magazines) {
+			/*magazine.setCoverPic(magAttachmentRepository.findCoverByArticleIdAndLibId(magazine.getMagId(), Magazine.LAYOUT_LIB_ID,
+					DateParseUtil.dateToStringWithSplit(magazine.getPdDate())));*/
 			magazine.setCoverPic(magAttachmentRepository.findCoverByArticleIdAndLibId(magazine.getMagId(), Magazine.LAYOUT_LIB_ID,
-					DateParseUtil.dateToStringWithSplit(magazine.getPdDate())));
+					DateParseUtil.stringSplit(magazine.getPdDate())));
 		}
 		map.put("list", magazines);
 		map.put("totalCount", total);

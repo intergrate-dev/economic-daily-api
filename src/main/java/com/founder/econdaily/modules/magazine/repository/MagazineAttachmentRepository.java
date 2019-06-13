@@ -81,6 +81,22 @@ public class MagazineAttachmentRepository {
         return list;
     }
 
+    public String queryCoversMagCoverPic(String articleId, String libId, String objId) {
+        List<PaperAttachment> list = this.queryCoversMagCoverPic(articleId, libId, objId, MagAttachment.ATT_TYPE_COVER);
+        return list != null && list.size() > 0 ? list.get(0).getAttUrl() : null;
+    }
+
+    private List<PaperAttachment> queryCoversMagCoverPic(String articleId, String libId, String objId, String attType) {
+        StringBuffer sql = new StringBuffer();
+        String ss = objId.substring(0, 5).concat("%");
+        sql.append("SELECT SYS_DOCUMENTID as id, att_url as attUrl FROM xy_attachment where att_articleID = ? ")
+                .append("and att_articleLibID = ? and att_objID LIKE ? and att_type = ? order by SYS_DOCUMENTID DESC ");
+        List<PaperAttachment> list = jdbcTemplate.query(sql.toString(), new Object[]{articleId, libId, ss, attType}, new BeanPropertyRowMapper(PaperAttachment.class));
+        return list;
+    }
+
+
+
     /**
      * 当年全部
      * @param articleId

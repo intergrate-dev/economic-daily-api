@@ -68,6 +68,13 @@ public class NewsPaperRepository {
         return list != null && list.size() > 0 ? list.get(0) : null;
     }
 
+    public Paper queryPaperByName(String paperName) {
+        StringBuffer sql = new StringBuffer();
+        sql.append("select SYS_DOCUMENTID as id, pa_code as paperCode from xy_paper where pa_name = ? ");
+        List<Paper> list = jdbcTemplate.query(sql.toString(), new Object[]{paperName}, new BeanPropertyRowMapper(Paper.class));
+        return list != null && list.size() > 0 ? list.get(0) : null;
+    }
+
     public List<PaperLayout> queryCatalogsByPlDate(String plDate, String paperId) {
         StringBuffer sql = new StringBuffer();
         sql.append("SELECT SYS_DOCUMENTID as id, pl_layoutName as plName from xy_paperlayout where pl_paperID = ? ")
@@ -90,7 +97,6 @@ public class NewsPaperRepository {
         StringBuffer sql = new StringBuffer();
         sql.append("SELECT SYS_DOCUMENTID as id, pl_layout as layout, pl_layoutName as plName, pl_date as plDate ")
                 .append("FROM xy_paperlayout where pl_paperID = ? and pl_date = ? and pl_layout = ? ");
-        // DateParseUtil.dateToString(plDate)
         List<PaperLayout> list = jdbcTemplate.query(sql.toString(), new Object[]{Integer.parseInt(paperId), plDate,
                 Integer.parseInt(layout)}, new BeanPropertyRowMapper(PaperLayout.class));
         return list != null && list.size() > 0 ? list.get(0) : null;
@@ -116,9 +122,15 @@ public class NewsPaperRepository {
 
     public Integer queryPaperArticleTotal() {
         StringBuffer sql = new StringBuffer("SELECT count(1) FROM `xy_paperarticle` ");
-        //List<Integer> list = jdbcTemplate.query(sql.toString(), new Object[]{}, new BeanPropertyRowMapper(Integer.class));
-        //return list != null && list.size() > 0 ? list.size() : 0;
         return this.jdbcTemplate.queryForObject(sql.toString(), new Object[]{}, Integer.class);
+    }
+
+    public PaperLayout queryLayoutById(String layoutId) {
+        StringBuffer sql = new StringBuffer();
+        sql.append("SELECT SYS_DOCUMENTID as id, pl_layout as layout, pl_layoutName as plName, pl_date as plDate, pl_paperID as plPaperID ")
+                .append("FROM xy_paperlayout where SYS_DOCUMENTID = ? ");
+        List<PaperLayout> list = jdbcTemplate.query(sql.toString(), new Object[]{Integer.parseInt(layoutId)}, new BeanPropertyRowMapper(PaperLayout.class));
+        return list != null && list.size() > 0 ? list.get(0) : null;
     }
 
 }
