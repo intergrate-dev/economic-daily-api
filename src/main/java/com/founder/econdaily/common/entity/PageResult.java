@@ -61,9 +61,5 @@ public class PageResult<T> implements Serializable {
     public void setNextPageData(NextPageData nextPageData) {
         this.nextPageData = nextPageData;
     }*/
-
-    public static void main(String[] args) {
-        Integer total = 483;
-        System.out.println(total/10 + 1);
-    }
+    
 }

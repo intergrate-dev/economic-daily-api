@@ -5,12 +5,12 @@
 *.jar
 *.war
 *.ear
-/target/
-/log/
-/.settings/
+target/
+log/
+.settings/
 *.project
 *.classpath
 *apiclient_cert.p12
-/.git
-/.idea/
+.git
+.idea/
 *.iml

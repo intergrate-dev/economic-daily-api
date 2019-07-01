@@ -10,12 +10,12 @@ import javax.servlet.http.HttpServletRequest;
 
 @RestController
 public class ErrorController {
-    private static final org.slf4j.Logger logger = LoggerFactory.getLogger(ErrorHandlerController.class);
+    // private static final org.slf4j.Logger logger = LoggerFactory.getLogger(ErrorHandlerController.class);
 
     @GetMapping(value = "/error")
     //@RequestMapping(value = "/error", method = RequestMethod.POST)
     //@ResponseBody
-    public ResponseObject login(HttpServletRequest request) {
+    public ResponseObject<String> login(HttpServletRequest request) {
         Integer statusCode = (Integer) request.getAttribute("javax.servlet.error.status_code");
         return ResponseObject.newErrorResponseObject(SystemConstant.REQ_ILLEGAL_CODE, SystemConstant.REQ_ILLEGAL);
     }

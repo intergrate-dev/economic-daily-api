@@ -1,0 +1,111 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Java",
+            "type": "java",
+            "request": "launch",
+            "stopOnEntry": true,
+            "jdkPath": "${env:JAVA_HOME}/bin",
+            "cwd": "${fileDirname}",
+            "startupClass": "${fileBasenameNoExtension}",
+            "classpath": [
+                ".",
+                "${fileDirname}"
+            ]
+        },
+        {
+            "name": "Java Console App",
+            "type": "java",
+            "request": "launch",
+            "stopOnEntry": true,
+            "jdkPath": "${env:JAVA_HOME}/bin",
+            "cwd": "${fileDirname}",
+            "startupClass": "${fileBasenameNoExtension}",
+            "classpath": [
+                ".",
+                "${fileDirname}"
+            ],
+            "externalConsole": true
+        },
+        {
+            "type": "java",
+            "name": "Debug (Launch) - Current File",
+            "request": "launch",
+            "mainClass": "${file}"
+        },
+        {
+            "type": "java",
+            "name": "Debug (Launch)-Application<economic-daily-api>",
+            "request": "launch",
+            "mainClass": "com.founder.econdaily.Application",
+            "projectName": "economic-daily-api"
+        },
+        {
+            "type": "java",
+            "name": "Debug (Launch)-DownLoadLargeFile<economic-daily-api>",
+            "request": "launch",
+            "mainClass": "com.founder.econdaily.common.util.DownLoadLargeFile",
+            "projectName": "economic-daily-api"
+        },
+        {
+            "type": "java",
+            "name": "Debug (Launch)-MD5Util<economic-daily-api>",
+            "request": "launch",
+            "mainClass": "com.founder.econdaily.common.util.MD5Util",
+            "projectName": "economic-daily-api"
+        },
+        {
+            "type": "java",
+            "name": "Debug (Launch)-RSA<economic-daily-api>",
+            "request": "launch",
+            "mainClass": "com.founder.econdaily.common.util.RSA",
+            "projectName": "economic-daily-api"
+        },
+        {
+            "type": "java",
+            "name": "Debug (Launch)-RegxUtil<economic-daily-api>",
+            "request": "launch",
+            "mainClass": "com.founder.econdaily.common.util.RegxUtil",
+            "projectName": "economic-daily-api"
+        },
+        {
+            "type": "java",
+            "name": "Debug (Launch)-TestUtil<economic-daily-api>",
+            "request": "launch",
+            "mainClass": "com.founder.econdaily.common.util.TestUtil",
+            "projectName": "economic-daily-api"
+        },
+        {
+            "type": "java",
+            "name": "Debug (Launch)-ZipCompressing<economic-daily-api>",
+            "request": "launch",
+            "mainClass": "com.founder.econdaily.common.util.ZipCompressing",
+            "projectName": "economic-daily-api"
+        },
+        {
+            "type": "java",
+            "name": "Debug (Launch)-ZipUtil<economic-daily-api>",
+            "request": "launch",
+            "mainClass": "com.founder.econdaily.common.util.ZipUtil",
+            "projectName": "economic-daily-api"
+        },
+        {
+            "type": "java",
+            "name": "Debug (Launch)-MutiDownloadTest<economic-daily-api>",
+            "request": "launch",
+            "mainClass": "com.founder.econdaily.common.util.down.MutiDownloadTest",
+            "projectName": "economic-daily-api"
+        },
+        {
+            "type": "java",
+            "name": "Debug (Launch)-MutiDownloadTest1<economic-daily-api>",
+            "request": "launch",
+            "mainClass": "com.founder.econdaily.common.util.down.MutiDownloadTest1",
+            "projectName": "economic-daily-api"
+        }
+    ]
+}

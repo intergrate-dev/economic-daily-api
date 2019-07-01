@@ -1,8 +1,5 @@
 package com.founder.econdaily.common.entity;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
-
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;

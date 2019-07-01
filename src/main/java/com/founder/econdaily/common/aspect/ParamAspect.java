@@ -1,9 +1,7 @@
 package com.founder.econdaily.common.aspect;
 
 import com.founder.ark.common.utils.bean.ResponseObject;
-import com.founder.econdaily.common.annotation.ValidateParam;
 import com.founder.econdaily.common.constant.SystemConstant;
-import com.founder.econdaily.common.controller.BaseController;
 import com.founder.econdaily.common.util.RegxUtil;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;

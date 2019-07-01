@@ -4,25 +4,18 @@ import com.founder.ark.common.utils.bean.ResponseObject;
 import com.founder.econdaily.common.annotation.Validate;
 import com.founder.econdaily.common.constant.SystemConstant;
 import com.founder.econdaily.common.controller.BaseController;
-import com.founder.econdaily.common.entity.DataResult;
 import com.founder.econdaily.common.util.JwtUtils;
-import com.founder.econdaily.common.util.RegxUtil;
 import com.founder.econdaily.modules.auth.entity.User;
-import com.founder.econdaily.modules.auth.entity.VUserEntity;
 import com.founder.econdaily.modules.auth.repository.UserRepository;
 import com.founder.econdaily.modules.auth.repository.VUserRepository;
-import io.github.swagger2markup.internal.utils.RegexUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @Api(tags = "用户认证")
@@ -43,7 +36,7 @@ public class AuthController extends BaseController {
                                 @ApiParam("密码") @RequestParam(name = "password", required = true, defaultValue = "123456") String password) {*/
     /*public ResponseObject login(@RequestParam(name = "username", required = true) String username,
                                 @RequestParam(name = "password", required = true) String password) {*/
-    public ResponseObject login(@Valid User user, BindingResult validResult) {
+    public ResponseObject<String> login(@Valid User user, BindingResult validResult) {
         /*if (validResult.hasErrors()) {
             return ResponseObject.newErrorResponseObject(SystemConstant.REQ_ILLEGAL_CODE, validErrorMsg(validResult));
         }*/

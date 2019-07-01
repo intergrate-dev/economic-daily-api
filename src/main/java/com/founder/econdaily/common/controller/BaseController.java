@@ -149,7 +149,6 @@ public class BaseController {
         }
 
         /* 创建zip文件输出流 */
-        InputStream fis = null;
         ZipOutputStream zos = null;
         ExecutorService threadPool = null;
         try {
