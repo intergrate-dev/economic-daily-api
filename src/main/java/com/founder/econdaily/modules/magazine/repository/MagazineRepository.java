@@ -38,11 +38,16 @@ public class MagazineRepository {
         return list != null && list.size() > 0 ? list.get(0) : null;
     }
 
-    public List<MagCatalog> queryCatalogsByPdDate(String pdDate, String magId) {
+    public List<MagCatalog> queryCatalogsByPdDate(String pdDate, String magId, Boolean simple) {
         StringBuffer sql = new StringBuffer();
-        sql.append("SELECT GROUP_CONCAT(SYS_TOPIC) as artiTopics, a_column as columnName " +
-                "FROM `xy_magarticle` where a_magazineID = ? and a_pubTime = ? group by a_columnID " +
-                "order by SYS_DOCUMENTID DESC ");
+        if (simple) {
+            sql.append("SELECT GROUP_CONCAT(SYS_TOPIC) ");
+        } else{
+            sql.append("SELECT GROUP_CONCAT(SYS_TOPIC, '-', SYS_DOCUMENTID) ");
+        }
+        // sql.append("SELECT GROUP_CONCAT(SYS_TOPIC) as artiTopics, a_column as columnName " +
+        sql.append("as artiTopics, a_column as columnName FROM `xy_magarticle` where a_magazineID = ? and a_pubTime = ? " +
+                "group by a_columnID order by SYS_DOCUMENTID DESC ");
         List<MagCatalog> list = jdbcTemplate.query(sql.toString(), new Object[]{magId, pdDate},
                 new BeanPropertyRowMapper(MagCatalog.class));
         return list != null && list.size() > 0 ? list : null;

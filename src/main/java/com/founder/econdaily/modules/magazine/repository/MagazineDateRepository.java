@@ -75,7 +75,7 @@ public class MagazineDateRepository {
 
     public List<Magazine> findByPaperIdAndPdDate(String paperId, String pdDate) {
         StringBuffer sql = new StringBuffer();
-        sql.append("SELECT pd_paperID as pdPaperID, pd_date as pdDate FROM xy_magdate where pd_paperID = ? ")
+        sql.append("SELECT pd_paperID as pdPaperID, pd_date as pdDate, pd_url as pdUrl FROM xy_magdate where pd_paperID = ? ")
                 .append("and pd_year = ? and pd_date <> ? group by pd_date order by pd_date DESC ");
         List<Magazine> list = null;
         String[] split = pdDate.split(RegxUtil.STRIP_SPLIT);

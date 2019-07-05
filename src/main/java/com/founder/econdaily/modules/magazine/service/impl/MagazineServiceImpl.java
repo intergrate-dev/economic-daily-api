@@ -1,5 +1,7 @@
 package com.founder.econdaily.modules.magazine.service.impl;
 
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.founder.ark.common.utils.DateUtil;
 import com.founder.econdaily.common.util.DateParseUtil;
 import com.founder.econdaily.common.util.RegxUtil;
@@ -83,44 +85,63 @@ public class MagazineServiceImpl implements MagazineService {
 		}
 		String objId = DateParseUtil.stringSplit(pdDate);
         mag.setCoverPic(magAttachmentRepository.findCoverByArticleIdAndLibId(mag.getMagId(), Magazine.LAYOUT_LIB_ID, objId));
-		List<MagCatalog> magCatalogs = magazineRepository.queryCatalogsByPdDate(pdDate, mag.getMagId());
 		List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
 		Map<String, Object> cMap = null;
+		List<MagCatalog> magCatalogs = magazineRepository.queryCatalogsByPdDate(pdDate, mag.getMagId(), false);
 		for (MagCatalog magCatalog : magCatalogs) {
 			cMap = new HashMap<String, Object>();
 			cMap.put("theme", magCatalog.getColumnName());
 			cMap.put("artiTopics", null);
+			JSONArray array = new JSONArray();
+			JSONObject json = null;
 			if (!StringUtils.isEmpty(magCatalog.getArtiTopics())) {
-				cMap.put("artiTopics", magCatalog.getArtiTopics().split(RegxUtil.COMMA_SPLIT));
+				String[] split = magCatalog.getArtiTopics().split(RegxUtil.COMMA_SPLIT);
+				for (int i = 0; i < split.length; i++) {
+					String con = split[i];
+					if (con.contains(RegxUtil.STRIP_SPLIT)) {
+						String[] sp = con.split(RegxUtil.STRIP_SPLIT);
+						json = new JSONObject();
+						json.put("id", sp[1]);
+						json.put("title", sp[0]);
+						array.add(json);
+					}
+				}
+				cMap.put("artiTopics", array);
 			}
 			list.add(cMap);
 		}
+
 		mag.setMagCatalogs(list);
 		//文章结构
 
 		map.put("magazine", mag);
 
-		Map<String, String> nMap = null;
-		List<Map<String, String>> otherMap = new ArrayList<Map<String, String>>();
-		List<Magazine> otherPdDateMags = magazineDateRepository.findByPaperIdAndPdDate(mag.getMagId(), pdDate);
-		for (Magazine magazine : otherPdDateMags) {
-			nMap = new HashMap<String, String>();
-			nMap.put("pdDate", pdDate);
-			nMap.put("coverPic", magAttachmentRepository.queryCoversByOtherPdDay(mag.getMagId(), Magazine.LAYOUT_LIB_ID, objId));
-			otherMap.add(nMap);
-		}
-		map.put("otherMags", otherMap);
+        this.queryOtherMags(pdDate, map, mag.getMagId());
 		return map;
 	}
 
-	@Override
+    private void queryOtherMags(String pdDate, Map<String, Object> map, String paperId) {
+        Map<String, String> nMap = null;
+        List<Map<String, String>> otherMap = new ArrayList<Map<String, String>>();
+        List<Magazine> otherPdDateMags = magazineDateRepository.findByPaperIdAndPdDate(paperId, pdDate);
+        for (Magazine magazine : otherPdDateMags) {
+            nMap = new HashMap<String, String>();
+            nMap.put("pdDate", DateParseUtil.dateToString(magazine.getPdDate()));
+            // nMap.put("coverPic", magAttachmentRepository.queryCoversByOtherPdDay(mag.getMagId(), Magazine.LAYOUT_LIB_ID, objId));
+            nMap.put("coverPic", magazine.getPdUrl());
+            otherMap.add(nMap);
+        }
+        map.put("otherMags", otherMap);
+    }
+
+    @Override
 	public Map<String, Object> queryMagazineDetailAndArticle(String articleId) throws Exception {
 		Map<String, Object> map = new HashMap<String, Object>();
 		MagazineArticle article = magazineRepository.queryArticleByArticleId(articleId);
         String pubTime = DateFormatUtils.format(article.getPubTime(), "yyyy-MM-dd");
-        List<MagCatalog> magCatalogs = magazineRepository.queryCatalogsByPdDate(pubTime, article.getType());
-		List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
 		Map<String, Object> cMap = null;
+		List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
+        List<MagCatalog> magCatalogs = magazineRepository.queryCatalogsByPdDate(pubTime, article.getType(), true);
 		if (magCatalogs != null && magCatalogs.size() > 0) {
 			for (MagCatalog magCatalog : magCatalogs) {
 				cMap = new HashMap<String, Object>();
@@ -136,13 +157,27 @@ public class MagazineServiceImpl implements MagazineService {
 		map.put("magazine", mag);*/
 		map.put("magCatalog", list);
 		//图集
-		map.put("magPics", magAttachmentRepository.findCoverByArticle(articleId).split(RegxUtil.COMMA_SPLIT));
+		JSONArray array = new JSONArray();
+		JSONObject json = null;
+		String[] split = magAttachmentRepository.findCoverByArticle(articleId).split(RegxUtil.COMMA_SPLIT);
+		for (int i = 0; i < split.length; i++) {
+			String con = split[i];
+			if (con.contains("&")) {
+				String[] sp = con.split("&");
+				json = new JSONObject();
+				json.put("url", sp[0]);
+				if (sp.length > 1) {
+					json.put("desc", sp[1]);
+				}
+				array.add(json);
+			}
+		}
+		map.put("magPics", array);
 		map.put("content", article.getContent());
 		// TODO 正文（内容）图？
-		map.put("contentPics", new ArrayList<String>());
-		//图集图片
+		// map.put("contentPics", new ArrayList<String>());
 
-		Map<String, String> nMap = null;
+		/*Map<String, String> nMap = null;
 		List<Map<String, String>> otherMap = new ArrayList<Map<String, String>>();
 		List<Magazine> otherPdDateMags = magazineDateRepository.findByPaperIdAndPdDate(article.getType(), pubTime);
 		for (Magazine magazine : otherPdDateMags) {
@@ -152,7 +187,8 @@ public class MagazineServiceImpl implements MagazineService {
 					DateParseUtil.dateToStringWithSplit(magazine.getPdDate())));
 			otherMap.add(nMap);
 		}
-		map.put("otherMags", otherMap);
+		map.put("otherMags", otherMap);*/
+        this.queryOtherMags(pubTime, map, article.getType());
 		return map;
 	}
 

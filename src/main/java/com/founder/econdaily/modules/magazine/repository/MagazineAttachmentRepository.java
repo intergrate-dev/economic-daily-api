@@ -111,7 +111,7 @@ public class MagazineAttachmentRepository {
 
     public String findCoverByArticle(String articleId) {
         StringBuffer sql = new StringBuffer();
-        sql.append("SELECT GROUP_CONCAT(att_url) as attUrl FROM `xy_attachment` where att_articleID = ? ");
+        sql.append("SELECT GROUP_CONCAT(att_url, '&', att_content) as attUrl FROM `xy_attachment` where att_articleID = ? ");
         List<PaperAttachment> list = jdbcTemplate.query(sql.toString(), new Object[]{articleId}, new BeanPropertyRowMapper(PaperAttachment.class));
         return list != null && list.size() > 0 ? list.get(0).getAttUrl() : "";
     }
