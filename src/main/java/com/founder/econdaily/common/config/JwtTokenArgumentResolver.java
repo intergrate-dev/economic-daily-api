@@ -29,22 +29,6 @@ public class JwtTokenArgumentResolver implements HandlerMethodArgumentResolver {
 
     @Override
     public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer, NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
-        /*HttpServletRequest request = webRequest.getNativeRequest(HttpServletRequest.class);
-        String authorization = request.getHeader("Authorization");
-        String result = null;
-        JwtToken token = null;
-        if(authorization!=null){
-            Annotation[] methodAnnotations = parameter.getParameterAnnotations();
-            for (Annotation methodAnnotation : methodAnnotations) {
-                if(methodAnnotation instanceof JwtToken){
-                    token = (JwtToken) methodAnnotation;
-                    break;
-                }
-            }
-            if(token!=null){
-                // result = JwtUtils.get(authorization,token.value());
-            }
-        }*/
         Method method = parameter.getMethod();
         Class<?>[] parameterTypes = method.getParameterTypes();
         for (Class<?> parameterType : parameterTypes) {
@@ -58,15 +42,12 @@ public class JwtTokenArgumentResolver implements HandlerMethodArgumentResolver {
                 break;
             }*/
         }
-        if (validResult != null) {
+        /*if (validResult != null) {
             if (validResult.hasErrors()) {
                 return ResponseObject.newErrorResponseObject(SystemConstant.REQ_ILLEGAL_CODE, this.validErrorMsg(validResult));
             }
-        }
-        return "ijijijijiji";
-        /*Map<String, String> map = new HashMap<String, String>();
-        map.put("data", "45435r34retert");
-        return JSON.toJSON(map).toString();*/
+        }*/
+        return null;
     }
 
 

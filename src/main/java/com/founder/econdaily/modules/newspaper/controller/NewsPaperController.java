@@ -39,9 +39,6 @@ public class NewsPaperController extends BaseController {
     //@ResponseBody
     //public ResponseObject queryPaperDates(@PathVariable("attachId") String attachId) throws Exception {
     public ResponseObject queryPaperDates(@Valid NewsPaperParam param, BindingResult validResult) throws Exception {
-        if (validResult.hasErrors()) {
-            return ResponseObject.newErrorResponseObject(SystemConstant.REQ_ILLEGAL_CODE, validErrorMsg(validResult));
-        }
         Map<String, Object> resMap = newsPaperService.findPaperDatesByAttachId(param.getAttachId());
         return ResponseObject.newSuccessResponseObject(resMap, SystemConstant.REQ_SUCCESS);
     }
@@ -52,9 +49,6 @@ public class NewsPaperController extends BaseController {
     /*@ResponseBody*/
     //public ResponseObject queryByCodeAndPlDate(@PathVariable("paperCode") String paperCode, @PathVariable("plDate") String plDate) throws Exception{
     public ResponseObject queryByCodeAndPlDate(@Valid NewsPaperParam param, BindingResult validResult) throws Exception {
-        if (validResult.hasErrors()) {
-            return ResponseObject.newErrorResponseObject(SystemConstant.REQ_ILLEGAL_CODE, validErrorMsg(validResult));
-        }
         Map<String, Object> resMap = newsPaperService.queryTopLayoutByPaperCodeAndPlDate(param.getPaperCode(), param.getPlDate());
         return ResponseObject.newSuccessResponseObject(resMap, SystemConstant.REQ_SUCCESS);
     }
@@ -66,9 +60,6 @@ public class NewsPaperController extends BaseController {
     /*public ResponseObject queryByCodeAndPlDateAndLayout(@PathVariable("paperCode") String paperCode, @PathVariable("plDate") String plDate,
                                                         @PathVariable("layout") Integer layout) throws Exception{*/
     public ResponseObject queryByCodeAndPlDateAndLayout(@Valid NewsPaperParam param, BindingResult validResult) throws Exception {
-        if (validResult.hasErrors()) {
-            return ResponseObject.newErrorResponseObject(SystemConstant.REQ_ILLEGAL_CODE, validErrorMsg(validResult));
-        }
         Map<String, Object> resMap = newsPaperService.queryByPaperIdAndPlDate(param.getPlDate(), param.getPaperCode(), param.getLayout());
         return ResponseObject.newSuccessResponseObject(resMap, SystemConstant.REQ_SUCCESS);
     }
@@ -79,9 +70,6 @@ public class NewsPaperController extends BaseController {
     /*@ResponseBody*/
     //public ResponseObject queryByArticleId(@PathVariable("articleId") String articleId) throws Exception{
     public ResponseObject queryByArticleId(@Valid NewsPaperParam param, BindingResult validResult) throws Exception {
-        if (validResult.hasErrors()) {
-            return ResponseObject.newErrorResponseObject(SystemConstant.REQ_ILLEGAL_CODE, validErrorMsg(validResult));
-        }
         Map<String, Object> resMap = newsPaperService.queryByArticleId(param.getArticleId());
         return ResponseObject.newSuccessResponseObject(resMap, SystemConstant.REQ_SUCCESS);
     }

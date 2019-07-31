@@ -37,12 +37,8 @@ public class AuthController extends BaseController {
     /*public ResponseObject login(@RequestParam(name = "username", required = true) String username,
                                 @RequestParam(name = "password", required = true) String password) {*/
     public ResponseObject login(@Valid User user, BindingResult validResult) {
-        /*if (validResult.hasErrors()) {
-            return ResponseObject.newErrorResponseObject(SystemConstant.REQ_ILLEGAL_CODE, validErrorMsg(validResult));
-        }*/
-
         User userQuery = userRepository.findByUsername(user.getUsername());
-        if (user != null) {
+        if (userQuery != null) {
             if (user.getPassword().equals(userQuery.getPassword())) {
                 //把token返回给客户端-->客户端保存至cookie-->客户端每次请求附带cookie参数
                 String JWT = JwtUtils.createJWT("1", user.getUsername(), SystemConstant.JWT_TTL);

@@ -44,9 +44,9 @@ public class MagazineController extends BaseController {
                                               @PathVariable("pdDate") @RequestParam(name = "pdDate", required = true, defaultValue = "2015-12-16") String pdDate) throws Exception {*/
     //public ResponseObject queryMagazineDetail(@PathVariable("magCode") String magCode, @PathVariable("pdDate") String pdDate) throws Exception {
     public ResponseObject queryMagazineDetail(@Valid MagazineParam param, BindingResult validResult) throws Exception {
-        if (validResult.hasErrors()) {
+        /*if (validResult.hasErrors()) {
             return ResponseObject.newErrorResponseObject(SystemConstant.REQ_ILLEGAL_CODE, validErrorMsg(validResult));
-        }
+        }*/
         Map<String, Object> resMap = magazineService.queryByPdDateAndMagCode(param.getPdDate(), param.getMagCode());
         return ResponseObject.newSuccessResponseObject(resMap, SystemConstant.REQ_SUCCESS);
     }
@@ -57,9 +57,6 @@ public class MagazineController extends BaseController {
     /*@ResponseBody*/
     //public ResponseObject queryMagazineDetailAndArticle(@PathVariable("articleId") String articleId) throws Exception {
     public ResponseObject queryMagazineDetailAndArticle(@Valid MagazineParam param, BindingResult validResult) throws Exception {
-        if (validResult.hasErrors()) {
-            return ResponseObject.newErrorResponseObject(SystemConstant.REQ_ILLEGAL_CODE, validErrorMsg(validResult));
-        }
         Map<String, Object> resMap = magazineService.queryMagazineDetailAndArticle(param.getArticleId());
         return ResponseObject.newSuccessResponseObject(resMap, SystemConstant.REQ_SUCCESS);
     }
@@ -70,9 +67,6 @@ public class MagazineController extends BaseController {
     /*@ResponseBody*/
     //public ResponseObject queryMagazineInfo(@PathVariable("magCode") String magCode) throws Exception {
     public ResponseObject queryMagazineInfo(@Valid MagazineParam param, BindingResult validResult) throws Exception {
-        if (validResult.hasErrors()) {
-            return ResponseObject.newErrorResponseObject(SystemConstant.REQ_ILLEGAL_CODE, validErrorMsg(validResult));
-        }
         Map<String, Object> resMap = magazineService.queryMagazineInfoByMagCode(param.getMagCode());
         return ResponseObject.newSuccessResponseObject(resMap, SystemConstant.REQ_SUCCESS);
     }
@@ -83,9 +77,6 @@ public class MagazineController extends BaseController {
     /*@ResponseBody*/
     //public ResponseObject queryMagazines(@PathVariable("magCode") String magCode, @PathVariable("pdDate") String pdDate) throws Exception {
     public ResponseObject queryMagazines(@Valid MagazineParam param, BindingResult validResult) throws Exception {
-        if (validResult.hasErrors()) {
-            return ResponseObject.newErrorResponseObject(SystemConstant.REQ_ILLEGAL_CODE, validErrorMsg(validResult));
-        }
         //Map<String, Object> resMap = magazineService.queryMagazineInfoByMagCodeAndYear(param.getMagCode(), param.getPdDate());
         Map<String, Object> resMap = magazineService.queryMagazineInfoByMagCodeAndYear(param.getMagCode(), param.getYear());
         return ResponseObject.newSuccessResponseObject(resMap, SystemConstant.REQ_SUCCESS);
