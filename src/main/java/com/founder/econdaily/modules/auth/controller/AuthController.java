@@ -1,6 +1,6 @@
 package com.founder.econdaily.modules.auth.controller;
 
-import com.founder.ark.common.utils.bean.ResponseObject;
+import com.founder.econdaily.common.util.ResponseObject;
 import com.founder.econdaily.common.annotation.Validate;
 import com.founder.econdaily.common.constant.SystemConstant;
 import com.founder.econdaily.common.controller.BaseController;
@@ -31,12 +31,12 @@ public class AuthController extends BaseController {
     @ApiOperation(value = "用户登陆")
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     @ResponseBody
-    @Validate(module = "test", desc = "测试")
+    @Validate
     /*public ResponseObject login(@ApiParam("用户名") @RequestParam(name = "username", required = true, defaultValue = "333333@qq.com") String username,
                                 @ApiParam("密码") @RequestParam(name = "password", required = true, defaultValue = "123456") String password) {*/
     /*public ResponseObject login(@RequestParam(name = "username", required = true) String username,
                                 @RequestParam(name = "password", required = true) String password) {*/
-    public ResponseObject<String> login(@Valid User user, BindingResult validResult) {
+    public ResponseObject login(@Valid User user, BindingResult validResult) {
         /*if (validResult.hasErrors()) {
             return ResponseObject.newErrorResponseObject(SystemConstant.REQ_ILLEGAL_CODE, validErrorMsg(validResult));
         }*/

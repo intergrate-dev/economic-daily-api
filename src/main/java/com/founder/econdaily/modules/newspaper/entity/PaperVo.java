@@ -9,6 +9,7 @@ public class PaperVo {
     private String plName;
     private String coverPic;
     private Integer layoutCount;
+    private String articleEarlyCreateTime;
 
     public String getPlPaperCode() {
         return plPaperCode;
@@ -72,5 +73,13 @@ public class PaperVo {
 
     public void setLayoutCount(Integer layoutCount) {
         this.layoutCount = layoutCount;
+    }
+
+    public String getArticleEarlyCreateTime() {
+        return articleEarlyCreateTime;
+    }
+
+    public void setArticleEarlyCreateTime(String articleEarlyCreateTime) {
+        this.articleEarlyCreateTime = articleEarlyCreateTime;
     }
 }

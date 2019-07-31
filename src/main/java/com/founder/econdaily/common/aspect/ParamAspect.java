@@ -1,8 +1,16 @@
 package com.founder.econdaily.common.aspect;
 
-import com.founder.ark.common.utils.bean.ResponseObject;
+// import com.founder.ark.common.utils.bean.ResponseObject;
 import com.founder.econdaily.common.constant.SystemConstant;
+import com.founder.econdaily.common.util.DateParseUtil;
 import com.founder.econdaily.common.util.RegxUtil;
+import com.founder.econdaily.common.util.ResponseObject;
+import com.founder.econdaily.modules.magazine.entity.BaseParam;
+import com.founder.econdaily.modules.magazine.entity.CommonParam;
+import com.founder.econdaily.modules.magazine.entity.MagazineParamDL;
+import com.founder.econdaily.modules.magazine.entity.NewsPaperParamDL;
+
+import org.apache.commons.lang3.StringUtils;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.*;
@@ -13,7 +21,10 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 
 import java.lang.reflect.Modifier;
+import java.text.ParseException;
+import java.util.Date;
 import java.util.List;
+import java.util.regex.Pattern;
 
 @Aspect
 @Component
@@ -25,16 +36,17 @@ public class ParamAspect {
     }
 
     //@Before("log()&&@annotation(validateParam)")
-    @Before("log()")
+    // @Before("log()")
     //public void doBefore(JoinPoint joinPoint) {
     public ResponseObject doBefore(JoinPoint joinPoint) {
-        System.out.println("******拦截前的逻辑******");
-        System.out.println("目标方法名为:" + joinPoint.getSignature().getName());
-        System.out.println("目标方法所属类的简单类名:" + joinPoint.getSignature().getDeclaringType().getSimpleName());
-        System.out.println("目标方法所属类的类名:" + joinPoint.getSignature().getDeclaringTypeName());
-        System.out.println("目标方法声明类型:" + Modifier.toString(joinPoint.getSignature().getModifiers()));
-        //获取传入目标方法的参数
-        Object[] args = joinPoint.getArgs();
+        return null;
+    }
+
+    @Around("log()")
+    public Object doAround(ProceedingJoinPoint proceeJoinPoint) throws Throwable {
+        logger.info("=============== before, target className: {},  method: {} ======================== ", proceeJoinPoint.getSignature().getDeclaringType()
+                .getSimpleName(), proceeJoinPoint.getSignature().getName());
+        Object[] args = proceeJoinPoint.getArgs();
         for (Object arg : args) {
             if (arg instanceof BindingResult) {
                 BindingResult validResult = (BindingResult) arg;
@@ -42,23 +54,37 @@ public class ParamAspect {
                     return ResponseObject.newErrorResponseObject(SystemConstant.REQ_ILLEGAL_CODE, validErrorMsg(validResult));
                 }
             }
+            if (arg instanceof BaseParam){
+                BaseParam cp = (BaseParam) arg;
+                // String regex = "^[0-9]{4}-[0-9]{2}-[0-9]{2}\\s+([0-1]?[0-9]|2[0-3]):([0-5][0-9]):([0-5][0-9])$";
+                String regex = "^[0-9]{4}-[0-9]{2}-[0-9]{2}$";
+                if (!StringUtils.isEmpty(cp.getBeginTime())) {
+                    if (!Pattern.matches(regex,cp.getBeginTime())) {
+                        return ResponseObject.newErrorResponseObject(SystemConstant.REQ_ILLEGAL_CODE, "参数: startTime 日期格式不正确！");
+                    }
+                }
+                if (!StringUtils.isEmpty(cp.getEndTime())) {
+                    if (!Pattern.matches(regex,cp.getEndTime())) {
+                        return ResponseObject.newErrorResponseObject(SystemConstant.REQ_ILLEGAL_CODE, "参数: endTime 日期格式不正确！");
+                    }
+                }
+                if (!StringUtils.isEmpty(cp.getBeginTime()) && !StringUtils.isEmpty(cp.getEndTime())) {
+                    try {
+                        Date beginDate = DateParseUtil.stringToDate(cp.getBeginTime());
+                        Date endDate = DateParseUtil.stringToDate(cp.getEndTime());
+                        if (beginDate.getTime() > endDate.getTime()) {
+                            return ResponseObject.newErrorResponseObject(SystemConstant.REQ_ILLEGAL_CODE, "结束日期不能小于开始日期！");
+                        }
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
         }
-        /*for (int i = 0; i < args.length; i++) {
-            System.out.println("第" + (i + 1) + "个参数为:" + args[i]);
-            if (args[i])
-        }*/
-        return null;
+        return proceeJoinPoint.proceed();
     }
 
-    @Around("log()")
-    public Object doAround(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
-        System.out.println("环绕通知：");
-        Object result = null;
-        result = proceedingJoinPoint.proceed();
-        return result;
-    }
-
-    @After("log()")
+    // @After("log()")
     public void doAfter(JoinPoint joinPoint) {
         System.out.println("******拦截后的逻辑******");
     }

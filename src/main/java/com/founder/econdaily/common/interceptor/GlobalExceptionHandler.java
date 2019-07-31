@@ -1,6 +1,6 @@
 package com.founder.econdaily.common.interceptor;
 
-import com.founder.ark.common.utils.bean.ResponseObject;
+import com.founder.econdaily.common.util.ResponseObject;
 import com.founder.econdaily.common.constant.SystemConstant;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

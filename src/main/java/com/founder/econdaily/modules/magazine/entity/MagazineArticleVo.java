@@ -1,9 +1,11 @@
 package com.founder.econdaily.modules.magazine.entity;
 
+import com.founder.econdaily.common.util.DateParseUtil;
+
 import java.util.Date;
 import java.util.List;
 
-public class MagazineArticle {
+public class MagazineArticleVo {
     public static final String ARTICLE_LIB_ID = "63";
 
     private String id;
@@ -15,8 +17,8 @@ public class MagazineArticle {
     private String source;
     private String paperName;
     private String abstra;
-    private Date pubTime;
-    private Date createTime;
+    private String pubTime;
+    private String createTime;
     private String type;
     private List<String> pics;
 
@@ -24,15 +26,7 @@ public class MagazineArticle {
         return pics;
     }
 
-    public Date getCreateTime() {
-		return createTime;
-	}
-
-	public void setCreateTime(Date createTime) {
-		this.createTime = createTime;
-	}
-
-	public void setPics(List<String> pics) {
+    public void setPics(List<String> pics) {
         this.pics = pics;
     }
 
@@ -116,11 +110,41 @@ public class MagazineArticle {
         this.abstra = abstra;
     }
 
-    public Date getPubTime() {
+    public String getPubTime() {
         return pubTime;
     }
 
-    public void setPubTime(Date pubTime) {
+    public void setPubTime(String pubTime) {
         this.pubTime = pubTime;
+    }
+
+    public String getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(String createTime) {
+        this.createTime = createTime;
+    }
+
+    public static MagazineArticleVo parseEntity(MagazineArticle magArticle) {
+        MagazineArticleVo magArtiVo = new MagazineArticleVo();
+        magArtiVo.setAbstra(magArticle.getAbstra());
+        magArtiVo.setAuthors(magArticle.getAuthors());
+        magArtiVo.setContent(magArticle.getContent());
+        if (magArticle.getCreateTime() != null) {
+            magArtiVo.setCreateTime(DateParseUtil.dateToString(magArticle.getCreateTime(), DateParseUtil.DATETIME_STRICK));
+        }
+        if (magArticle.getPubTime() != null) {
+            magArtiVo.setPubTime(DateParseUtil.dateToString(magArticle.getPubTime(), DateParseUtil.DATETIME_STRICK));
+        }
+        magArtiVo.setId(magArticle.getId());
+        magArtiVo.setLeadTitle(magArticle.getLeadTitle());
+        magArtiVo.setPaperName(magArticle.getPaperName());
+        magArtiVo.setPics(magArticle.getPics());
+        magArtiVo.setType(magArticle.getType());
+        magArtiVo.setSubTitle(magArticle.getSubTitle());
+        magArtiVo.setTitle(magArticle.getTitle());
+        magArtiVo.setSource(magArticle.getSource());
+        return magArtiVo;
     }
 }

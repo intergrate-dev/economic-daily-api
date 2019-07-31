@@ -8,7 +8,7 @@ public class NewsPaperKey extends BasePrefix {
         super(expireSeconds, prefix);
     }
 
-    public static NewsPaperKey netestPapers = new NewsPaperKey(3600, "NP:");
+    public static NewsPaperKey netestPapers = new NewsPaperKey(43200, "NP:");
 
     public static final String NEWS_PAPER_KEY = "netestPapers";
 }

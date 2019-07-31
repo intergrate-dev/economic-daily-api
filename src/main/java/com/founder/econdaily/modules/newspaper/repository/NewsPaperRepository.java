@@ -4,6 +4,8 @@ import com.founder.econdaily.common.util.DateParseUtil;
 import com.founder.econdaily.modules.newspaper.entity.Paper;
 import com.founder.econdaily.modules.newspaper.entity.PaperArticle;
 import com.founder.econdaily.modules.newspaper.entity.PaperLayout;
+
+import org.apache.commons.lang3.StringUtils;
 import org.apache.http.client.utils.DateUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -77,8 +79,8 @@ public class NewsPaperRepository {
 
     public List<PaperLayout> queryCatalogsByPlDate(String plDate, String paperId) {
         StringBuffer sql = new StringBuffer();
-        sql.append("SELECT SYS_DOCUMENTID as id, pl_layoutName as plName from xy_paperlayout where pl_paperID = ? ")
-                .append("and pl_date = ? ");
+        sql.append("SELECT SYS_DOCUMENTID as id, pl_layoutName as plName, pl_layout As layoutCount, pl_mapping As plMapping ")
+                .append("from xy_paperlayout where pl_paperID = ? and pl_date = ? ");
         // DateParseUtil.dateToString(plDate)
         List<PaperLayout> list = jdbcTemplate.query(sql.toString(), new Object[]{paperId, plDate},
                 new BeanPropertyRowMapper(PaperLayout.class));
@@ -105,23 +107,38 @@ public class NewsPaperRepository {
     public PaperArticle queryByArticleId(String articleId) {
         StringBuffer sql = new StringBuffer();
         sql.append("select SYS_DOCUMENTID as id, SYS_TOPIC as title, a_subTitle as subTitle, a_leadTitle as leadTitle, a_abstract as abstra, " +
-                "a_source as source, SYS_AUTHORS as authors, a_pubTime as pubTime, a_layoutID as layoutId from xy_paperarticle " +
+                "a_source as source, SYS_AUTHORS as authors, a_pubTime as pubTime, a_layoutID as layoutId, a_content As content from xy_paperarticle " +
                 "where SYS_DOCUMENTID = ? ");
         List<PaperArticle> list = jdbcTemplate.query(sql.toString(), new Object[]{articleId}, new BeanPropertyRowMapper(PaperArticle.class));
         return list != null && list.size() > 0 ? list.get(0) : null;
     }
 
 
-    public List<PaperArticle> queryPaperArticles(Integer pageNo, Integer limit) {
+    public List<PaperArticle> queryPaperArticles(Integer pageNo, Integer limit, String st, String et) {
         StringBuffer sql = new StringBuffer();
-        sql.append("SELECT SYS_DOCUMENTID as id, SYS_TOPIC as title, a_content as content FROM `xy_paperarticle` ")
-                .append("limit ?, ?");
+        Object[] params = {};
+        sql.append("SELECT SYS_DOCUMENTID as id, SYS_TOPIC as title, a_content as content, SYS_CREATED as createTime FROM `xy_paperarticle` where 1 = 1 ");
+        this.extracted(sql, st, et);
+        sql.append("order by SYS_CREATED desc ");
+        if (pageNo != null && limit != null) {
+            sql.append("limit ?, ? ");
+        }
         List<PaperArticle> list = jdbcTemplate.query(sql.toString(), new Object[]{(pageNo - 1) * limit, limit}, new BeanPropertyRowMapper(PaperArticle.class));
         return list != null && list.size() > 0 ? list : null;
     }
 
-    public Integer queryPaperArticleTotal() {
-        StringBuffer sql = new StringBuffer("SELECT count(1) FROM `xy_paperarticle` ");
+    private void extracted(StringBuffer sql, String st, String et) {
+        if (!StringUtils.isEmpty(st)) {
+            sql.append("and SYS_CREATED > '").append(st).append(" 00:00:00' ");
+        }
+        if (!StringUtils.isEmpty(et)) {
+            sql.append("and SYS_CREATED < '").append(et).append(" 23:59:59' ");
+        }
+    }
+
+    public Integer queryPaperArticleTotal(String st, String et) {
+        StringBuffer sql = new StringBuffer("SELECT count(1) FROM `xy_paperarticle` where 1 = 1 ");
+        this.extracted(sql, st, et);
         return this.jdbcTemplate.queryForObject(sql.toString(), new Object[]{}, Integer.class);
     }
 
@@ -132,5 +149,12 @@ public class NewsPaperRepository {
         List<PaperLayout> list = jdbcTemplate.query(sql.toString(), new Object[]{Integer.parseInt(layoutId)}, new BeanPropertyRowMapper(PaperLayout.class));
         return list != null && list.size() > 0 ? list.get(0) : null;
     }
+
+    public String queryArticleEarlyTime(String plPaperID) {
+        List<Date> list = jdbcTemplate.query("SELECT MIN(SYS_CREATED) from xy_paperarticle where a_paperID = ? ", new Object[]{plPaperID},
+                new BeanPropertyRowMapper(Date.class));
+        return list != null && list.size() > 0 ? DateParseUtil.dateToString(list.get(0), DateParseUtil.DATETIME_STRICK) : null;
+    }
+
 
 }

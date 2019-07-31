@@ -16,6 +16,7 @@ public class PaperLayout implements Serializable {
     private String plName;
     private String coverPic;
     private Integer layoutCount;
+    private String plMapping;
 
     public PaperLayout() {
     }
@@ -89,5 +90,13 @@ public class PaperLayout implements Serializable {
         this.plPaperID = plPpaperID;
         this.plName = plName;
         this.layoutCount = layoutCount;
+    }
+
+    public String getPlMapping() {
+        return plMapping;
+    }
+
+    public void setPlMapping(String plMapping) {
+        this.plMapping = plMapping;
     }
 }

@@ -15,6 +15,6 @@ public class Application {
 	
 	public static void main(String[] args) throws InterruptedException {
 		SpringApplication.run(Application.class, args);
-		logger.info("发送服务启动 ");
+		logger.info("App started completely ...");
 	}
 }

@@ -36,7 +36,7 @@ public class PaperAttachmentRepository {
         return list != null && list.size() > 0 ? list.get(0).getAttUrl() : "";
     }
 
-    private List<PaperAttachment> findAttchsByArticleIdAndLibId(String articleId, String libId, String attType) {
+    public List<PaperAttachment> findAttchsByArticleIdAndLibId(String articleId, String libId, String attType) {
         StringBuffer sql = new StringBuffer();
         sql.append("SELECT SYS_DOCUMENTID as id, att_url as attUrl FROM xy_paperattachment where att_articleID = ? ")
                 .append("and att_articleLibID = ? and att_type = ? ");
@@ -51,8 +51,9 @@ public class PaperAttachmentRepository {
 
     public List<PaperAttachment> findOtherPlPicAndPdf(String articleIds, String libId) {
         StringBuffer sql = new StringBuffer();
-        sql.append("SELECT GROUP_CONCAT(att_url) attUrl,att_articleID articleID from (SELECT att_articleID, att_url, att_type FROM xy_paperattachment ")
-                .append("where att_articleID in (" + articleIds + ") and att_articleLibID = :libId) aa GROUP BY att_articleID ");
+        sql.append("SELECT GROUP_CONCAT(att_url) attUrl,att_articleID articleID, SYS_DOCUMENTID id from (SELECT att_articleID, ")
+                .append("att_url, att_type, SYS_DOCUMENTID FROM xy_paperattachment where att_articleID in (" + articleIds +
+                ") and att_articleLibID = :libId) aa GROUP BY att_articleID ");
         NamedParameterJdbcTemplate namedParameterJdbcTemplate = new NamedParameterJdbcTemplate(jdbcTemplate);
         MapSqlParameterSource parameters = new MapSqlParameterSource();
         parameters.addValue("libId", libId);
@@ -63,6 +64,7 @@ public class PaperAttachmentRepository {
             public Object mapRow(ResultSet rs, int rowNum) throws SQLException {
                 PaperAttachment att = new PaperAttachment();
                 att.setAttUrl(rs.getString("attUrl"));
+                att.setId(rs.getString("id"));
                 return att;
             }
         });

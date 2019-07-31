@@ -58,6 +58,14 @@ public class DateParseUtil {
         if (StringUtils.isEmpty(dateStr)) {
             return null;
         }
-        return DateUtils.parseDate(dateStr, new String[]{"yyyy-MM-dd"});
+        //return DateUtils.parseDate(dateStr, new String[]{"yyyy-MM-dd"});
+        return stringToDate(dateStr, DATE_STRICK);
+    }
+
+    public static Date stringToDate(String dateStr, String format) throws ParseException {
+        if (StringUtils.isEmpty(format)) {
+            return null;
+        }
+        return DateUtils.parseDate(dateStr, format);
     }
 }

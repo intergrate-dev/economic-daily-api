@@ -45,12 +45,19 @@ public class MagazineDateRepository {
      *
      * @return
      */
-    public MagzineDateVo queryDatesByYearAndMonth(String pdPaperId) {
+    /*public MagzineDateVo queryDatesByYearAndMonth(String pdPaperId) {
         StringBuffer sql = new StringBuffer();
         sql.append("select max(md.pd_year) as latestYear, m.pa_name as magName, md.pd_date as pdDate from xy_magdate as md ")
                 .append("join xy_magazine as m on m.SYS_DOCUMENTID = md.pd_paperID where pd_paperID = ? ");
         List<MagzineDateVo> list = jdbcTemplate.query(sql.toString(), new Object[]{pdPaperId}, new BeanPropertyRowMapper(MagzineDateVo.class));
         return list != null && list.size() > 0 ? list.get(0) : null;
+    }*/
+
+    public List<MagzineDateVo> queryDatesByYearAndMonth(String pdPaperId) {
+        StringBuffer sql = new StringBuffer();
+        sql.append("select md.pd_year as pdYear, m.pa_name as magName, md.pd_date as pdDate from xy_magdate as md ")
+                .append("join xy_magazine as m on m.SYS_DOCUMENTID = md.pd_paperID where pd_paperID = ? GROUP BY pd_year order by pd_year DESC ");
+        return jdbcTemplate.query(sql.toString(), new Object[]{pdPaperId}, new BeanPropertyRowMapper(MagzineDateVo.class));
     }
 
     public List<MagzineDateVo> queryDatesByPdPaperIdAndPdYear(String pdPaperId, String pdYear) {
@@ -79,6 +86,7 @@ public class MagazineDateRepository {
                 .append("and pd_year = ? and pd_date <> ? group by pd_date order by pd_date DESC ");
         List<Magazine> list = null;
         String[] split = pdDate.split(RegxUtil.STRIP_SPLIT);
+        logger.info("--------------------- queryOtherMagazine sql: {}, paperId: {}, paDate: {}", sql.toString(), paperId, pdDate);
         list = jdbcTemplate.query(sql.toString(), new Object[]{paperId, split[0], pdDate}, new BeanPropertyRowMapper(Magazine.class));
         return list;
     }

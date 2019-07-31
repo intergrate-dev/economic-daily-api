@@ -1,7 +1,6 @@
 package com.founder.econdaily.common.redis;
 
 import com.alibaba.fastjson.JSON;
-import com.founder.ark.common.utils.StringUtil;
 import com.founder.econdaily.common.entity.KeyPrefix;
 import com.founder.econdaily.common.util.SerializeUtil;
 import org.apache.commons.lang3.StringUtils;

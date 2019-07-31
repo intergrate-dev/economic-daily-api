@@ -38,6 +38,14 @@ public class ResponseObject implements Serializable {
 		return res;
 	}
 
+	public static ResponseObject newSuccessResponseObject(Object resultObject, String message) {
+		ResponseObject res = new ResponseObject();
+		res.setResultObject(resultObject);
+		res.setErrorMessage(message);
+		return res;
+	}
+
+
 	public String getErrorMessage() {
 		return errorMessage;
 	}

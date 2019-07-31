@@ -1,9 +1,9 @@
 package com.founder.econdaily.common.config;
 
-import com.founder.ark.common.utils.bean.ResponseObject;
 import com.founder.econdaily.common.annotation.JwtToken;
 import com.founder.econdaily.common.constant.SystemConstant;
 import com.founder.econdaily.common.util.RegxUtil;
+import com.founder.econdaily.common.util.ResponseObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.MethodParameter;

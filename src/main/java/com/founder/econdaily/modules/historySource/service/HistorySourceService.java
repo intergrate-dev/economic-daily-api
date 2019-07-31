@@ -8,7 +8,7 @@ import java.util.Map;
  */
 public interface HistorySourceService {
 
-    Map<String, Object> queryPaperArticles(Integer pageNo, Integer limit) throws Exception;
+    Map<String, Object> queryPaperArticles(Integer pageNo, Integer limit, String st, String et) throws Exception;
 
-    Map<String,Object> queryMagazineArticles(Integer pageNo, Integer limit) throws Exception;
+    Map<String,Object> queryMagazineArticles(Integer pageNo, Integer limit, String st, String et) throws Exception;
 }

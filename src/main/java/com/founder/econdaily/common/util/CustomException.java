@@ -6,18 +6,19 @@ package com.founder.econdaily.common.util;
  * @Date:Created in 15:49 2018/1/15
  * @Modified By:
  */
-public class CustomExceptionMsg {
+public class CustomException extends Throwable {
     private Integer status;
 
     private String errorMessage;
 
     /**
      * 构造方法
+     *
      * @param status
      * @param errorMessage
      */
-    public CustomExceptionMsg(Integer status, String errorMessage) {
-        this.status       = status;
+    public CustomException(Integer status, String errorMessage) {
+        this.status = status;
         this.errorMessage = errorMessage;
     }
 

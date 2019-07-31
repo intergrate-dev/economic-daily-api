@@ -1,6 +1,7 @@
 package com.founder.econdaily.modules.magazine.controller;
 
-import com.founder.ark.common.utils.bean.ResponseObject;
+import com.founder.econdaily.common.annotation.Validate;
+import com.founder.econdaily.common.util.ResponseObject;
 import com.founder.econdaily.common.constant.SystemConstant;
 import com.founder.econdaily.common.controller.BaseController;
 import com.founder.econdaily.common.entity.PageResult;
@@ -28,6 +29,7 @@ public class MagazineController extends BaseController {
 
     @ApiOperation(value = "1. 获取所有种类期刊最新一期信息")
     @RequestMapping(value = "/newtests", method = RequestMethod.POST)
+    @Validate
     //@ResponseBody
     public ResponseObject magazineNewtests() throws Exception {
         Map<String, Object> resMap = magazineService.queryMagNewtests();
@@ -36,6 +38,7 @@ public class MagazineController extends BaseController {
 
     @ApiOperation(value = "2. 获取某一期刊及往期期刊信息")
     @GetMapping("/{magCode}/{pdDate}")
+    @Validate
     /*@ResponseBody*/
     /*public ResponseObject queryMagazineDetail(@PathVariable("magCode") @RequestParam(name = "magCode", required = true, defaultValue = "zgjjxx") String magCode,
                                               @PathVariable("pdDate") @RequestParam(name = "pdDate", required = true, defaultValue = "2015-12-16") String pdDate) throws Exception {*/
@@ -50,6 +53,7 @@ public class MagazineController extends BaseController {
 
     @ApiOperation(value = "3. 获取某一期刊、往期期刊信息及稿件信息")
     @GetMapping("/{articleId}")
+    @Validate
     /*@ResponseBody*/
     //public ResponseObject queryMagazineDetailAndArticle(@PathVariable("articleId") String articleId) throws Exception {
     public ResponseObject queryMagazineDetailAndArticle(@Valid MagazineParam param, BindingResult validResult) throws Exception {
@@ -62,6 +66,7 @@ public class MagazineController extends BaseController {
 
     @ApiOperation(value = "4. 获取往期杂志页面的具体数据")
     @GetMapping("/{magCode}/detail")
+    @Validate
     /*@ResponseBody*/
     //public ResponseObject queryMagazineInfo(@PathVariable("magCode") String magCode) throws Exception {
     public ResponseObject queryMagazineInfo(@Valid MagazineParam param, BindingResult validResult) throws Exception {
@@ -74,6 +79,7 @@ public class MagazineController extends BaseController {
 
     @ApiOperation(value = "5. 根据选择的年限查询期刊内容")
     @GetMapping("/select/{magCode}/{year}")
+    @Validate
     /*@ResponseBody*/
     //public ResponseObject queryMagazines(@PathVariable("magCode") String magCode, @PathVariable("pdDate") String pdDate) throws Exception {
     public ResponseObject queryMagazines(@Valid MagazineParam param, BindingResult validResult) throws Exception {

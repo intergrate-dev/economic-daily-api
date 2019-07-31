@@ -1,9 +1,9 @@
 package com.founder.econdaily.modules.newspaper.service.impl;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.TypeReference;
-import com.founder.ark.common.utils.StringUtil;
 import com.founder.econdaily.common.redis.RedisService;
 import com.founder.econdaily.common.util.DateParseUtil;
 import com.founder.econdaily.common.util.RegxUtil;
@@ -84,6 +84,7 @@ public class NewsPaperServiceImpl implements NewsPaperService {
             pv.setPlPaperCode(paper.getPaperCode());
         }
         pv.setPlUrl(paperLayout.getPlUrl());
+        pv.setArticleEarlyCreateTime(newsPaperRepository.queryArticleEarlyTime(paperLayout.getPlPaperID()));
         return pv;
     }
 
@@ -156,6 +157,8 @@ public class NewsPaperServiceImpl implements NewsPaperService {
             }
         }
         map.put("coordinate", days);
+
+
     }
 
     private void setOtherPlPicAndPdf(Map<String, Object> map, List<String> otherAttArtiIds) {
@@ -168,8 +171,9 @@ public class NewsPaperServiceImpl implements NewsPaperService {
         List<Map<String, String>> list = new ArrayList<Map<String, String>>();
         List<PaperAttachment> attachs = attachmentRepository.findOtherPlPicAndPdf(articleIds, PaperLayout.LAYOUT_LIB_ID);
         for (PaperAttachment attach : attachs) {
-            if (StringUtil.isNotBlank(attach.getAttUrl())) {
+            if (!StringUtils.isEmpty(attach.getAttUrl())) {
                 aMap = new HashMap<String, String>();
+                aMap.put("attId", attach.getId());
                 String[] split = attach.getAttUrl().split(RegxUtil.COMMA_SPLIT);
                 if (split != null && split.length > 0) {
                     fillPropertity(aMap, split[0]);
@@ -225,7 +229,7 @@ public class NewsPaperServiceImpl implements NewsPaperService {
         }
         //文章图集图片
         paperArticle.setPics(Arrays.asList(attachmentRepository.findCoverByArticle(articleId).split(RegxUtil.COMMA_SPLIT)));
-        map.put("article", JSONObject.toJSON(this.parseEntityWithArticle(paperArticle)));
+        map.put("article", JSONObject.toJSON(PaperArticleVo.parseEntityWithArticle(paperArticle)));
         PaperLayout paperLayout = newsPaperRepository.queryLayoutById(paperArticle.getLayoutId());
         String plDate = DateParseUtil.dateToString(paperLayout.getPlDate());
         this.setCoordinate(plDate, map);
@@ -243,50 +247,73 @@ public class NewsPaperServiceImpl implements NewsPaperService {
         return map;
     }
 
-    private PaperArticleVo parseEntityWithArticle(PaperArticle paperArticle) {
-        PaperArticleVo pav = new PaperArticleVo();
-        pav.setAbstra(paperArticle.getAbstra());
-        pav.setAuthors(paperArticle.getAuthors());
-        pav.setContent(paperArticle.getContent());
-        pav.setId(paperArticle.getId());
-        pav.setLayoutId(paperArticle.getLayoutId());
-        pav.setLeadTitle(paperArticle.getLeadTitle());
-        pav.setPaperName(paperArticle.getPaperName());
-        pav.setPlDate(DateParseUtil.dateToString(paperArticle.getPlDate()));
-        pav.setPubTime(DateParseUtil.dateToString(paperArticle.getPubTime()));
-        pav.setPics(paperArticle.getPics());
-        pav.setContPics(new ArrayList<String>());
-        pav.setSubTitle(paperArticle.getSubTitle());
-        pav.setSource(paperArticle.getSource());
-        return pav;
-    }
-
     private void setPlContentList(Map<String, Object> map, String plId) {
-        List<String> contentList = new ArrayList<String>();
-        List<PaperArticle> contents = newsPaperRepository.queryContentsByTopLayoutId(plId);
-        if (contents != null) {
-            for (PaperArticle content : contents) {
-                contentList.add(content.getTitle());
+        JSONArray array = new JSONArray();
+        try {
+            List<PaperArticle> contents = newsPaperRepository.queryContentsByTopLayoutId(plId);
+            Collections.sort(contents, new Comparator<PaperArticle>() {
+                @Override
+                public int compare(PaperArticle o1, PaperArticle o2) {
+                    return Integer.parseInt(o1.getId()) > Integer.parseInt(o2.getId()) ? -1 : 1;
+                }
+            });
+            if (contents != null) {
+                JSONObject json = null;
+                for (PaperArticle content : contents) {
+                    json = new JSONObject();
+                    json.put("articleId", content.getId());
+                    json.put("title", content.getTitle());
+                    array.add(json);
+                }
             }
+        } catch (Exception e) {
+            //TODO: handle exception
+            e.printStackTrace();
         }
-        map.put("plContents", contentList);
+        map.put("plContents", array);
     }
 
     private void setPlPicAndPdf(Map<String, Object> map, String plId) {
-        map.put("plPic", attachmentRepository.findCoverByArticleIdAndLibId(plId, PaperLayout.LAYOUT_LIB_ID, PaperAttachment.ATT_TYPE_COVER_LAYOUT));
+        map.put("plPic", null);
+        map.put("attId", null);
+        List<PaperAttachment> coverPics = attachmentRepository.findAttchsByArticleIdAndLibId(plId, PaperLayout.LAYOUT_LIB_ID, PaperAttachment.ATT_TYPE_COVER_LAYOUT);
+        if (coverPics != null && coverPics.size() > 0) {
+            map.put("plPic", coverPics.get(0).getAttUrl());
+            map.put("attId", coverPics.get(0).getId());
+        }
         map.put("plPdf", attachmentRepository.findCoverByArticleIdAndLibId(plId, PaperLayout.LAYOUT_LIB_ID, PaperAttachment.ATT_TYPE_PDF_LAYOUT));
     }
 
     private void setPlCatalogs(Map<String, Object> map, String parseDate, String paperId, List<String> otherAttArtiIds, String plId) {
-        List<String> cList = new ArrayList<String>();
+        JSONArray array = new JSONArray();
         List<PaperLayout> catalogs = newsPaperRepository.queryCatalogsByPlDate(parseDate, paperId);
+        JSONObject json = null;
         for (PaperLayout catalog : catalogs) {
-            cList.add(catalog.getPlName());
+            json = new JSONObject();
+            json.put("layout", catalog.getLayoutCount());
+            json.put("layoutName", catalog.getPlName());
+            String mapping = catalog.getPlMapping();
+            JSONArray parseArray = JSONArray.parseArray(mapping);
+            List<ArticleMapping> amList = parseArray.toJavaList(ArticleMapping.class);
+            try {
+                Collections.sort(amList, new Comparator<ArticleMapping>() {
+    
+                    @Override
+                    public int compare(ArticleMapping o1, ArticleMapping o2) {
+                        return Integer.parseInt(o1.getArticleID()) > Integer.parseInt(o2.getArticleID()) ? -1 : 1;
+                    }
+                });
+                json.put("hots", amList);
+            } catch (Exception e) {
+                //TODO: handle exception
+                e.printStackTrace();
+            }
+            array.add(json);
             if (!plId.equals(catalog.getId())) {
                 otherAttArtiIds.add(catalog.getId());
             }
         }
-        map.put("plCatalogs", cList);
+        map.put("plCatalogs", array);
     }
 
 

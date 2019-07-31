@@ -7,6 +7,7 @@ public class MagzineDateVo {
     private String latestYear;
     private String magName;
     private Date pdDate;
+    private String pdYear;
 
     public String getMagId() {
         return magId;
@@ -38,5 +39,13 @@ public class MagzineDateVo {
 
     public void setMagName(String magName) {
         this.magName = magName;
+    }
+
+    public String getPdYear() {
+        return pdYear;
+    }
+
+    public void setPdYear(String pdYear) {
+        this.pdYear = pdYear;
     }
 }

@@ -1,6 +1,7 @@
 package com.founder.econdaily.common.interceptor;
 
-import com.founder.ark.common.utils.bean.ResponseObject;
+// ;
+import com.founder.econdaily.common.util.ResponseObject;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.web.ErrorAttributes;

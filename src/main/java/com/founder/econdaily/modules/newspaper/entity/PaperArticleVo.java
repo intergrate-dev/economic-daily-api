@@ -3,6 +3,8 @@ package com.founder.econdaily.modules.newspaper.entity;
 import java.util.Date;
 import java.util.List;
 
+import com.founder.econdaily.common.util.DateParseUtil;
+
 public class PaperArticleVo {
 
     private String id;
@@ -16,6 +18,7 @@ public class PaperArticleVo {
     private String abstra;
     private String plDate;
     private String pubTime;
+    private String createTime;
     private String layoutId;
     private List<String> pics;
 
@@ -23,7 +26,15 @@ public class PaperArticleVo {
         return contPics;
     }
 
-    public void setContPics(List<String> contPics) {
+    public String getCreateTime() {
+		return createTime;
+	}
+
+	public void setCreateTime(String createTime) {
+		this.createTime = createTime;
+	}
+
+	public void setContPics(List<String> contPics) {
         this.contPics = contPics;
     }
 
@@ -131,5 +142,30 @@ public class PaperArticleVo {
 
     public void setPubTime(String pubTime) {
         this.pubTime = pubTime;
+    }
+
+    public static PaperArticleVo parseEntityWithArticle(PaperArticle paperArticle) {
+        PaperArticleVo pav = new PaperArticleVo();
+        pav.setAbstra(paperArticle.getAbstra());
+        pav.setAuthors(paperArticle.getAuthors());
+        pav.setContent(paperArticle.getContent());
+        pav.setId(paperArticle.getId());
+        pav.setLayoutId(paperArticle.getLayoutId());
+        pav.setLeadTitle(paperArticle.getLeadTitle());
+        pav.setPaperName(paperArticle.getPaperName());
+        if (paperArticle.getPlDate() != null) {
+            pav.setPlDate(DateParseUtil.dateToString(paperArticle.getPlDate(), DateParseUtil.DATETIME_STRICK));
+        }
+        if (paperArticle.getCreateTime() != null) {
+            pav.setCreateTime(DateParseUtil.dateToString(paperArticle.getCreateTime(), DateParseUtil.DATETIME_STRICK));
+        }
+        if (paperArticle.getPubTime() != null) {
+            pav.setPubTime(DateParseUtil.dateToString(paperArticle.getPubTime(), DateParseUtil.DATETIME_STRICK));
+        }
+        pav.setPics(paperArticle.getPics());
+        pav.setContPics(paperArticle.getPics());
+        pav.setSubTitle(paperArticle.getSubTitle());
+        pav.setSource(paperArticle.getSource());
+        return pav;
     }
 }

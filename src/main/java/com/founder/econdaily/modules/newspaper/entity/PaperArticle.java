@@ -15,16 +15,26 @@ public class PaperArticle {
     private String source;
     private String paperName;
     private String abstra;
+    private Date createTime;
     private Date plDate;
     private Date pubTime;
     private String layoutId;
+    
     private List<String> pics;
 
     public List<String> getPics() {
         return pics;
     }
 
-    public void setPics(List<String> pics) {
+    public Date getCreateTime() {
+		return createTime;
+	}
+
+	public void setCreateTime(Date createTime) {
+		this.createTime = createTime;
+	}
+
+	public void setPics(List<String> pics) {
         this.pics = pics;
     }
 

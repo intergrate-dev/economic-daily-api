@@ -1,8 +1,6 @@
 package com.founder.econdaily.common.controller;
 
-import com.founder.econdaily.common.util.CustomInputStreamSupplier;
-import com.founder.econdaily.common.util.RegxUtil;
-import com.founder.econdaily.common.util.ScatterSample;
+import com.founder.econdaily.common.util.*;
 import org.apache.commons.compress.archivers.zip.ZipArchiveEntry;
 import org.apache.commons.compress.archivers.zip.ZipArchiveOutputStream;
 import org.apache.commons.compress.archivers.zip.ZipMethod;
@@ -12,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 
+import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
@@ -28,8 +27,7 @@ public class BaseController {
     public String validErrorMsg(BindingResult validResult) {
         List<ObjectError> list = validResult.getAllErrors();
         for (ObjectError objectError : list) {
-            logger.info(objectError.toString());
-            ;
+            logger.info("---------------------- validErrorMsg: {} -----------------------", objectError.toString());
         }
         return RegxUtil.extractTargetBetweenSymbolRange(validResult.toString(), RegxUtil.REG_ZH, RegxUtil.REG_TX);
     }
@@ -39,43 +37,41 @@ public class BaseController {
                 concat(RegxUtil.PATH_SPLIT);
     }
 
-    //public void writeOutputWithChannel(InputStream in, OutputStream out, Boolean closeable) {
-    public void writeOutputWithChannel(List<String> files, OutputStream out, Boolean closeable) {
-        //String pathname = "C:\\Users\\adew\\Desktop\\jd-gui.cfg";
+    public void writeOutputWithChannel(List<String> files, String serverPath, HttpServletResponse response, Boolean closeable, String fileName) {
+        if (files == null || files.size() == 0) {
+            logger.info("========================== writeOutputWithChannel error: files is empty =========================");
+            return;
+        }
+        long time1 = System.currentTimeMillis();
         FileInputStream fin = null;
         FileChannel channel = null;
+        OutputStream out = null;
+        String tempZip = serverPath.concat(System.currentTimeMillis() + ".zip");
         try {
-            for (String file : files) {
-                File f = new File(file);
-                if (f.isDirectory()) {
-                    File[] fileList = f.listFiles();
-                    for (File file1 : fileList) {
-                        fin = new FileInputStream(file1);
-                        channel = fin.getChannel();
-
-                        int capacity = 2048000;// 字节
-                        ByteBuffer bf = ByteBuffer.allocate(capacity);
-                        int length = -1;
-                        while ((length = channel.read(bf)) != -1) {
-                            bf.clear();
-                            byte[] bytes = bf.array();
-                            out.write(bytes, 0, length);
-                        }
-                    }
-                } else {
-                    fin = new FileInputStream(f);
-                    channel = fin.getChannel();
-
-                    int capacity = 2048000;// 字节
-                    ByteBuffer bf = ByteBuffer.allocate(capacity);
-                    int length = -1;
-                    while ((length = channel.read(bf)) != -1) {
-                        bf.clear();
-                        byte[] bytes = bf.array();
-                        out.write(bytes, 0, length);
-                    }
+            out = response.getOutputStream();
+            BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(tempZip));
+            ZipOutputStream zos = new ZipOutputStream(bos);
+            ZipEntry ze = null;
+            try {
+                for (String file : files) {
+                    FileInputStream fis = new FileInputStream(file);
+                    ze = new ZipEntry(file.substring(file.lastIndexOf(RegxUtil.PATH_SPLIT) + 1));
+                    zos.putNextEntry(ze);
+                    this.copyWithChannel(fis.getChannel(), zos);
                 }
+                zos.flush();
+                zos.close();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
+
+            response.setContentType("text/html; charset=UTF-8");
+            response.setContentType("application/x-msdownload;");
+            response.setHeader("Content-disposition", "attachment;filename=".concat(fileName));
+            fin = new FileInputStream(tempZip);
+            this.copyWithChannel(fin.getChannel(), out);
+            new File(tempZip).delete();
+            logger.info("------------------- delete tempZipFle: {} from disk -------------------------", tempZip);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -95,18 +91,27 @@ public class BaseController {
                     e.printStackTrace();
                 }
             }
-            if (closeable && out != null) {
-                try {
-                    out.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+            try {
+                out.close();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
+        }
+        logger.info("==================  writeOutputWithChannel take time: {} ===================", System.currentTimeMillis() - time1);
+    }
+
+    private void copyWithChannel(FileChannel channel, OutputStream out) throws IOException {
+        int capacity = 4096000;
+        ByteBuffer bf = ByteBuffer.allocate(capacity);
+        int length = -1;
+        while ((length = channel.read(bf)) != -1) {
+            bf.clear();
+            byte[] bytes = bf.array();
+            out.write(bytes, 0, length);
         }
     }
 
-    //    public void recursion(String root, List<String> list) {
-    public void recursion(String root, Map<String, List<String>> map) {
+    public void recursion(String root, Map<String, List<String>> map) throws CustomException {
         List<String> pdfList = new ArrayList<String>();
         List<String> xmlList = new ArrayList<String>();
         List<String> contAttList = new ArrayList<String>();
@@ -132,7 +137,8 @@ public class BaseController {
                 }
             }
         } else {
-            logger.info("this file is not exit!");
+            logger.info("============================== this file: {} is not exist! ================", file);
+            throw new CustomException(-1, "file path: ".concat(file.getPath()).concat(" is not exist"));
         }
         map.put("pdfList", pdfList);
         map.put("xmlList", xmlList);
@@ -157,9 +163,9 @@ public class BaseController {
 
             /* 循环读取文件路径集合，获取每一个文件的路径（将文件一个一个进行压缩） */
             for (String fp : list) {
-                this.fileTransToZip(new File(fp), zos);
                 /*threadPool = Executors.newSingleThreadExecutor();
                 threadPool.submit(new Task(new File(fp), zos));*/
+                this.fileTransToZip(new File(fp), zos);
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -179,29 +185,20 @@ public class BaseController {
         FileInputStream fis = null;
         BufferedInputStream bis = null;
         try {
-            if (inputFile.exists()) { // 判断文件是否存在
-                if (inputFile.isFile()) { // 判断是否属于文件，还是文件夹
-
-                    // 创建输入流读取文件
+            if (inputFile.exists()) {
+                if (inputFile.isFile()) {
                     fis = new FileInputStream(inputFile);
                     bis = new BufferedInputStream(fis);
 
-                    // 将文件写入zip内，即将文件进行打包
-                    ZipEntry ze = new ZipEntry(inputFile.getName()); // 获取文件名
+                    ZipEntry ze = new ZipEntry(inputFile.getName());
                     zipoutputStream.putNextEntry(ze);
 
-                    // 写入文件的方法，同上
-                    byte[] b = new byte[4094000];
-                    int length = 0; //代表实际读取的字节数
+                    byte[] b = new byte[4096000];
+                    int length = 0;
                     while ((length = bis.read(b)) != -1) {
-                        //length 代表实际读取的字节数
                         zipoutputStream.write(b, 0, length);
                     }
-                    //this.writeOutputWithChannel(new FileInputStream(inputFile), zipoutputStream, false);
-                    /*final ScatterSample scatterSample = new ScatterSample(inputFile.getAbsolutePath());
-                    addEntry(inputFile.getName(), inputFile, scatterSample);*/
-
-                } else { // 如果是文件夹，则使用穷举的方法获取文件，写入zip
+                } else {
                     try {
                         File[] files = inputFile.listFiles();
                         for (int i = 0; i < files.length; i++) {
@@ -225,14 +222,15 @@ public class BaseController {
         }
     }
 
-    public void createZipFile(final String rootPath, final File result) throws Exception {
+    public void createZipFile(final String rootPath, String date, final File result) throws Exception {
         File dstFolder = new File(result.getParent());
         if (!dstFolder.isDirectory()) {
             dstFolder.mkdirs();
         }
         File rootDir = new File(rootPath);
         final ScatterSample scatterSample = new ScatterSample(rootDir.getAbsolutePath());
-        compressCurrentDirectory(rootDir, scatterSample);
+        this.compressCurrentDirectory(rootDir, scatterSample);
+
         final ZipArchiveOutputStream zipArchiveOutputStream = new ZipArchiveOutputStream(result);
         scatterSample.writeTo(zipArchiveOutputStream);
         zipArchiveOutputStream.close();
@@ -252,26 +250,25 @@ public class BaseController {
         if (dir == null) {
             throw new IOException("源路径不能为空！");
         }
-        String relativePath = "";
+        String relativePath = null;
         if (dir.isFile()) {
             relativePath = dir.getName();
-            addEntry(relativePath, dir, scatterSample);
+            this.addEntry(relativePath, dir, scatterSample);
             return;
         }
 
-
-        // 空文件夹
-        if (dir.listFiles().length == 0) {
+        File[] files = dir.listFiles();
+        if (files == null || files.length == 0) {
             relativePath = dir.getAbsolutePath().replace(scatterSample.getRootPath(), "");
-            addEntry(relativePath + File.separator, dir, scatterSample);
+            this.addEntry(relativePath + File.separator, dir, scatterSample);
             return;
         }
-        for (File f : dir.listFiles()) {
+        for (File f : files) {
             if (f.isDirectory()) {
                 compressCurrentDirectory(f, scatterSample);
             } else {
                 relativePath = f.getParent().replace(scatterSample.getRootPath(), "");
-                addEntry(relativePath + File.separator + f.getName(), f, scatterSample);
+                this.addEntry(relativePath + File.separator + f.getName(), f, scatterSample);
             }
         }
     }

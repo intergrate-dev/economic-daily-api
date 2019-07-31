@@ -13,6 +13,7 @@ public class MagazineVo {
     private String magCode;
     private String PdDate;
     private String coverPic;
+    private String articleEarlyCreateTime;
 
     private List<Map<String, Object>> magCatalogs;
 
@@ -71,4 +72,12 @@ public class MagazineVo {
         mv.setMagName(magazine.getPdJName());
         return mv;
     }*/
+
+    public String getArticleEarlyCreateTime() {
+        return articleEarlyCreateTime;
+    }
+
+    public void setArticleEarlyCreateTime(String articleEarlyCreateTime) {
+        this.articleEarlyCreateTime = articleEarlyCreateTime;
+    }
 }

@@ -1,6 +1,6 @@
 package com.founder.econdaily.common.interceptor;
 
-import com.founder.ark.common.utils.bean.ResponseObject;
+import com.founder.econdaily.common.util.ResponseObject;
 import com.founder.econdaily.common.constant.SystemConstant;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,7 +15,7 @@ public class ErrorController {
     @GetMapping(value = "/error")
     //@RequestMapping(value = "/error", method = RequestMethod.POST)
     //@ResponseBody
-    public ResponseObject<String> login(HttpServletRequest request) {
+    public ResponseObject login(HttpServletRequest request) {
         Integer statusCode = (Integer) request.getAttribute("javax.servlet.error.status_code");
         return ResponseObject.newErrorResponseObject(SystemConstant.REQ_ILLEGAL_CODE, SystemConstant.REQ_ILLEGAL);
     }

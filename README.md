@@ -292,6 +292,18 @@ public ResponseObject queryByCodeAndPlDateAndLayout(@PathVariable("paperCode") S
 refer:  
 [@RequestParam @RequestBody @PathVariable的作用](https://segmentfault.com/a/1190000016001510?utm_source=tag-newest)                                                    
            
+### log monitor & manage
+show operator tracing
+
+
+
+### vscode使用问题
+1. 编码智能程度（符号匹配，修改报红线，修改未立即编译(全局编译 shift + alt + B 不凑效)，重新启动服务后生效,
+   方法生成不够快捷且代码格式、方法名不优雅，以及文件创建、类名修改等）,
+2. 控制台problems视窗，报出的错误、警告信息，与项目构建脱离，状态完全不一致。
+3. maven自动关联到M2_REPO（~/.m2/repository/）
+
+
            
            
                                                      

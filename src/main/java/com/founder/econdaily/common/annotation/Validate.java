@@ -6,7 +6,7 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 public @interface Validate {
-    String module();
+    // String module();
 
-    String desc();
+    // String desc();
 }

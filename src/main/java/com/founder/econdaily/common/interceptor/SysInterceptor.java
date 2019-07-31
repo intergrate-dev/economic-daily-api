@@ -1,5 +1,6 @@
 package com.founder.econdaily.common.interceptor;
 
+import com.alibaba.fastjson.JSONObject;
 import com.founder.econdaily.common.constant.SystemConstant;
 import com.founder.econdaily.common.entity.CheckResult;
 import com.founder.econdaily.common.entity.DataResult;
@@ -26,13 +27,17 @@ public class SysInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
             throws Exception {
+        JSONObject json = new JSONObject();
+        json.put("data", new Object[]{});
         String requestURI = request.getRequestURI();
         if (handler instanceof HandlerMethod) {
             String authHeader = "prod".equals(SpringContextUtil.getActiveProfile()) ?
                     request.getHeader("token") : System.getProperty("jwt_token");
             if (StringUtils.isEmpty(authHeader)) {
                 logger.info("签名不能为空");
-                print(response, new DataResult(SystemConstant.JWT_ERRCODE_NULL, "签名不能为空"));
+                json.put("status", -1);
+                json.put("message", "签名不能为空");
+                print(response, json);
                 return false;
             } else {
                 //验证JWT的签名，返回CheckResult对象
@@ -44,12 +49,16 @@ public class SysInterceptor implements HandlerInterceptor {
                         // 签名验证不通过
                         case SystemConstant.JWT_ERRCODE_FAIL:
                             logger.info("签名错误");
-                            print(response, new DataResult(checkResult.getErrCode(), "签名错误"));
+                            json.put("status", -1);
+                            json.put("message", "签名错误");
+                            print(response, json);
                             break;
                         // 签名过期，返回过期提示码
                         case SystemConstant.JWT_ERRCODE_EXPIRE:
                             logger.info("签名过期");
-                            print(response, new DataResult(checkResult.getErrCode(), "签名过期"));
+                            json.put("status", -1);
+                            json.put("message", "签名过期");
+                            print(response, json);
                             break;
                         default:
                             break;
